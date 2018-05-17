@@ -1,0 +1,11 @@
+[Unit]
+Description=Y-Bot Line Client
+
+[Service]
+User=ubuntu
+ExecStart=/opt/program-y/bots/servusai/kik/servusai-kik.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

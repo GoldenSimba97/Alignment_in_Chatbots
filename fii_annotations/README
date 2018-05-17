@@ -1,0 +1,36 @@
+This directory contains a bunch of CSV files, consisting of sentence annotations from Amazon Mechanical Turk experiments. They also contain other experimental parameters, such as F-score and I-score (explained in paper), and the original sentences.
+
+Recall that we had two MTurk experiments. Results from the first experiment are in the following files:
+
+mturk_experiment_1.csv
+mturk_experiment_1_blog_part.csv
+mturk_experiment_1_forum_part.csv
+mturk_experiment_1_news_part.csv
+
+
+Results from the second experiment are in the following files:
+
+mturk_experiment_2.csv
+mturk_experiment_2_blog_part.csv
+mturk_experiment_2_forum_part.csv
+mturk_experiment_2_news_part.csv
+
+
+Each CSV file has one sentence per line (i.e., per row), that is, one HIT per line.
+
+The columns are as follows:
+
+Sentence ID           =  A numeric ID assigned to sentences
+HIT ID                =  MTurk HIT ID
+Formality             =  Mean formality rating given by five Turkers
+Informativeness       =  Mean informativeness rating given by five Turkers
+Implicature           =  Mean implicature rating given by five Turkers
+Length in Words       =  Length of the sentence in words
+Length in Characters  =  Length of the sentence in characters
+F-score               =  Heylighen and Dewaele's F-score (explained in paper)
+I-score               =  Information score (explained in paper)
+Lexical Density       =  Ure's Lexical density (explained in paper)
+Sentence              =  The sentence itself
+
+
+
