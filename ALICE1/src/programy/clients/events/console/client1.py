@@ -16,15 +16,22 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR TH
 """
 
 import nltk
-from heapq import nlargest
 from heapq import nsmallest
+# from heapq import nlargest
+import pandas as pd
+import csv
+import numpy as np
 import time
+import operator
 
 from programy.utils.logging.ylogger import YLogger
 
 from programy.clients.events.client import EventBotClient
 from programy.clients.events.console.config import ConsoleConfiguration
 from programy.clients.render.text import TextRenderer
+
+# from alignment import QRPair
+from programy.clients.events.alignment import QRPair
 
 # Create formal and informal word lists
 formal_file = open("FormalityLists/formal_seeds_100.txt", "r")
@@ -47,6 +54,11 @@ for line in text_file:
     informal.append(lines[0])
     formal.append(lines[1])
 
+# # Read GloVe pre trained vectors and make a matrix of it
+# words = pd.read_table("glove.6B/glove.6B.50d.1.txt", sep=" ", index_col=0, header=None, quoting=csv.question_NONE)
+# words_matrix = words.as_matrix()
+# word_list = words.index
+
 class ConsoleBotClient(EventBotClient):
 
     def __init__(self, argument_parser=None):
@@ -56,6 +68,7 @@ class ConsoleBotClient(EventBotClient):
 
         # Added user history variable
         self.user_history = ""
+        self.user_his_list = []
         self.question_number = 0
         self.user_formality = 0
 
@@ -96,14 +109,17 @@ class ConsoleBotClient(EventBotClient):
         self._renderer.render(client_context, response)
 
     # All answers between random tag are split by 11039841. Formality of the user is compared to the
-    # formality of the random responses. The two responses with a formality that are the most different
-    # to that of the user are returned. If there is just a single possible answer, it gets directly returned.
+    # formality of the random responses. The two responses with a formality closest to that of the user
+    # are returned. If there is just a single possible answer, it gets directly returned.
     # Also made sure "@" is replaced with "at".
     def process_response(self, client_context, response):
         if "11039841" in response:
             if "@" in response:
                 response = response.replace("@", " at ")
+            if "<3" in response:
+                response = response.replace("<3", " heart")
             responses_formality = {}
+            best_responses = {}
             two_best_responses = []
             sentences = response.split("11039841")
             sentences = [x for x in sentences if x]
@@ -111,20 +127,53 @@ class ConsoleBotClient(EventBotClient):
             # Determine formality for all possible responses
             start_time = time.time()
             for sentence in sentences:
+            #     glove = 1
+            #     formality = self.determine_formality(sentence)
+            #     difference = self.user_formality - formality
+            #     question = self.question.split()
+            #     for word in question:
+            #         if word in word_list:
+            #             closest = self.find_N_closest_words(self.vec(word), 3, words)
+            #             for close in closest:
+            #                 if close in sentence:
+            #                     if difference > 0:
+            #                         glove *= 1.1
+            #                     elif difference < 0:
+            #                         glove *= 0.9
+            #                 # else:
+            #                 #     glove *= 0.9
+            #     responses_formality[formality * glove] = sentence
                 responses_formality[self.determine_formality(sentence)] = sentence
 
             for key, val in responses_formality.items():
                  print(key, "=>", val)
 
-            # Find the two responses with most different formality to user formality
-            # two_best_formality = nlargest(2, responses_formality, key=lambda x:abs(x-self.user_formality))
-            two_best_formality = nlargest(2, responses_formality, key=lambda x:abs(x-self.user_formality))
+            # Find the two responses with closest formality to user formality
+            two_best_formality = nsmallest(2, responses_formality, key=lambda x:abs(x-self.user_formality))
+            # best = min(responses_formality, key=lambda x:abs(x-self.user_formality))
+            # print(best)
             two_best_responses.extend((responses_formality[two_best_formality[0]], responses_formality[two_best_formality[1]]))
+
+            for item in two_best_formality:
+                best_responses[item] = responses_formality[item]
+            print(best_responses)
+
             print(two_best_responses)
-            print("--- %s seconds ---" % (time.time() - start_time))
+            # print("--- %s seconds ---" % (time.time() - start_time))
+            total_alignment = self.determine_alignment(best_responses)
+            print(total_alignment)
+            score = list(total_alignment.values())[0]
+            if all(value == score for value in total_alignment.values()) == True:
+                # print("hello")
+                print(two_best_responses[0])
+            else:
+                # print("bye")
+                print(best_responses[max(total_alignment.items(), key=operator.itemgetter(1))[0]])
         else:
             if "@" in response:
                 response = response.replace("@", " at ")
+            if "<3" in response:
+                response = response.replace("<3", " heart")
             print(response)
 
     def process_question_answer(self, client_context):
@@ -132,7 +181,8 @@ class ConsoleBotClient(EventBotClient):
 
         # Expands user history
         self.user_history = self.user_history + question + ". "
-        # print(self.user_history)
+        self.user_his_list.append(question)
+        # print(self.user_his_list)
 
         # Determines user formality over whole user history
         self.user_formality = self.determine_formality(self.user_history)
@@ -213,7 +263,70 @@ class ConsoleBotClient(EventBotClient):
 
     # Calculation of the F score
     def f_score(self, NN_freq, JJ_freq, IN_freq, DT_freq, PRP_freq, VB_freq, RB_freq, UH_freq):
-        return ((NN_freq + JJ_freq + IN_freq + DT_freq - PRP_freq - VB_freq - RB_freq - UH_freq + 100)/2.0)
+        return ((NN_freq + JJ_freq + IN_freq + DT_freq - PRP_freq - VB_freq - RB_freq - UH_freq + 100)/2)
+
+    # Make vector for certain word
+    def vec(self, word):
+        return words.loc[word].as_matrix()
+
+    # Retrieve N closest (most similar) words
+    def find_N_closest_words(self, vector, N, words):
+        Nwords = []
+        for w in range(N):
+            diff = words.as_matrix() - vector
+            delta = np.sum(diff * diff, axis=1)
+            i = np.argmin(delta)
+            Nwords.append(words.iloc[i].name)
+            words = words.drop(words.iloc[i].name, axis=0)
+        return Nwords
+
+    def determine_alignment(self, response_dict):
+        weight_vector = np.array([0.8, 0.2])
+        markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
+        smoothing = 0.1
+        alignment_scores = {}
+        scores = 0
+        for mark in markers:
+            if mark != "number_posts" :
+                features = self.get_features_from_file('coordination_markers/'+mark+'.txt')
+            else:
+                features = [mark]
+
+            pair_dictionary = {}
+            for question in self.user_his_list:
+                for key, response in response_dict.items():
+                    qrpair = QRPair()
+                    qrpair.add_question(question)
+                    qrpair.add_response(response)
+                    pair_dictionary[key] = qrpair
+
+            alignment_dict = {}
+    		# Loop through all qrpairs again to compute alignment
+            for k, qrpair in pair_dictionary.items():
+    			# some qrpairs do not have the author dict and response dict
+                try:
+                    alignment_dict[k] = qrpair.compute_alignment(features, self.user_his_list, smoothing, weight_vector, alternative="final")
+                except:
+                    pass
+
+            for key, score in alignment_dict.items():
+                alignment_scores.setdefault(key, []).append(score)
+
+    	# Return total alignment scores
+        return {key: sum(alignment_scores[key]) for key in alignment_scores}
+
+    def get_features_from_file(self, file_name):
+        """
+        Read a list of feature words from file_name,
+        and return a list of all the words
+        """
+        feature_list = []
+        f = open(file_name, 'r')
+        for line in f:
+            feature_list.append(line.split("\n")[0])
+        f.close()
+        return feature_list
+
 
 
 if __name__ == '__main__':

@@ -4,6 +4,7 @@ import os
 import sys
 from collections import defaultdict
 import numpy as np
+import operator
 
 # try:
 # 	import cPickle as pickle
@@ -12,18 +13,18 @@ import numpy as np
 
 class QRPair:
 	def __init__(self, key):
-	# def __init__(self, key, discussion_id, response_post_id, quote_post_id):
+	# def __init__(self, key, discussion_id, response_post_id, question_post_id):
 		self.key = key
 		# self.discussion_id = discussion_id
 		# self.response_post_id = response_post_id
-		# self.quote_post_id = quote_post_id
+		# self.question_post_id = question_post_id
 
 
-	def add_quote(self, quote):
+	def add_question(self, question):
 		'''
-		Add quote text to object
+		Add question text to object
 		'''
-		self.quote = quote
+		self.question = question
 
 	def add_response(self, response):
 		'''
@@ -65,72 +66,76 @@ class QRPair:
 	# 	return author_ratio_dict
 
 
-	def update_authordict(self, author_dict, response_dict):
-		"""
-		Update number of posts of response author in author dict
-		"""
-		# Set response and quote author for qrpair object
-		self.response_author = self.get_author_by_id(self.response_post_id)
-		self.quote_author = self.get_author_by_id(self.quote_post_id)
+	# def update_authordict(self, author_dict, response_dict):
+	# 	"""
+	# 	Update number of posts of response author in author dict
+	# 	"""
+	# 	# Set response and question author for qrpair object
+	# 	self.response_author = self.get_author_by_id(self.response_post_id)
+	# 	self.question_author = self.get_author_by_id(self.question_post_id)
+    #
+	# 	# update number of posts for this response author (for computation baseline)
+	# 	try:
+	# 		author_dict[self.response_author]["number_posts"] += 1
+	# 	except KeyError:
+	# 		author_dict[self.response_author]= {"number_posts": 1}
+	# 	# save responses to dict
+	# 	try:
+	# 		response_dict[self.response_author].append(self.response)
+	# 	except KeyError:
+	# 		response_dict[self.response_author]= [self.response]
+	# 	# Also increase number of posts for the author of the question.
+	# 	#try:
+	# 	#	author_dict[self.question_author]["number_posts"] += 1
+	# 	#except KeyError:
+	# 	#	author_dict[self.question_author] = {"number_posts": 1}
+	# 	return author_dict, {}, response_dict
 
-		# update number of posts for this response author (for computation baseline)
-		try:
-			author_dict[self.response_author]["number_posts"] += 1
-		except KeyError:
-			author_dict[self.response_author]= {"number_posts": 1}
-		# save responses to dict
-		try:
-			response_dict[self.response_author].append(self.response)
-		except KeyError:
-			response_dict[self.response_author]= [self.response]
-		# Also increase number of posts for the author of the quote.
-		#try:
-		#	author_dict[self.quote_author]["number_posts"] += 1
-		#except KeyError:
-		#	author_dict[self.quote_author] = {"number_posts": 1}
-		return author_dict, {}, response_dict
 
-
-	def compute_alignment(self, features, author_dict, other_author_dict, response_dict, smoothing, weight_vector, alternative="matching"):
-		#quote_author = self.get_author_by_id(self.quote_post_id)
+	def compute_alignment(self, features, questions_list, smoothing, weight_vector, alternative="matching"):
+		#question_author = self.get_author_by_id(self.question_post_id)
 		#self.response_author = self.get_author_by_id(self.response_post_id)
 
 		# OLD NEW VERSION USING LENGTH
 		#base_prob, autor_dict = get_new_baseline(self.response_author, features, author_dict)
 		# NEW OLD VERSION USING BINARY
-		base_prob, autor_dict = get_baseline(self.response_author, features, author_dict, response_dict)
+		# base_prob, autor_dict = get_baseline(self.response_author, features, author_dict, response_dict)
+		# base_prob = get_baseline(features, response_dict)
+		base_prob = get_baseline(features, questions_list)
 
-		other_base_prob, other_author_dict = other_baseline(self.response_author, features, other_author_dict, response_dict)
+		# other_base_prob, other_author_dict = other_baseline(self.response_author, features, other_author_dict, response_dict)
+		# other_base_prob = other_baseline(features, response_dict)
+		other_base_prob = other_baseline(features, questions_list)
 		conditional_prob = self.response_prob(features)
 
 		value_vector = np.array([other_base_prob, base_prob])
 
 		scalarized = np.dot(weight_vector, value_vector)
 
-		quote_text = getWords(self.quote)
+		question_text = getWords(self.question)
 		response_text = getWords(self.response)
 		self.response_length = len(response_text)
-		quote_text = getWords(self.quote)
-		self.quote_length = len(quote_text)
+		question_text = getWords(self.question)
+		self.question_length = len(question_text)
 
-		# Quote is empty -> no alignment
-		if len(quote_text) == 0:
-			self.alignment = None
-			return author_dict, other_author_dict
+		# question is empty -> no alignment
+		if len(question_text) == 0:
+			self.alignment = 0
+			return self.alignment
 
 
 
-		q_count = feature_count(quote_text, features)
+		q_count = feature_count(question_text, features)
 		if q_count == 0 and features[0] != "number_posts":
 			#print "zero case"
-			self.alignment = None
-			return author_dict, other_author_dict
-		q_m = (q_count + smoothing) / (len(quote_text) + smoothing)
+			self.alignment = 0
+			return self.alignment
+		q_m = (q_count + smoothing) / (len(question_text) + smoothing)
 		#print q_count
 
 		if q_m == 0:
-			self.alignment = None
-			return author_dict, other_author_dict
+			self.alignment = 0
+			return self.alignment
 		#print "Q_M", q_m
 
 		r_m = (feature_count(response_text, features) + smoothing) / (len(response_text) + smoothing)
@@ -146,7 +151,7 @@ class QRPair:
 			self.alignment = conditional_prob - scalarized
 			#if self.alignment > 1.0 or self.alignment < - 1.0:
 			#	print "alignment", conditional_prob, base_prob, self.alignment
-		return author_dict, other_author_dict
+		return self.alignment
 
 	def matching(self, q_m, r_m):
 		if q_m == r_m:
@@ -184,124 +189,126 @@ class QRPair:
 	# 				continue
 	# 	return author
 
-def other_baseline(author, features, author_dict, response_dict):
-	try:
-		baseline = author_dict[author][features[0]]
-		return baseline, author_dict
+def other_baseline(features, questions_list):
+	# try:
+	# 	baseline = author_dict[author][features[0]]
+	# 	return baseline, author_dict
+    #
+	# except KeyError:
+	exists = False
+	total_exists = 0.0
+	counter = 0
+	# check number of responses which hold marker
+	# for key, response in response_dict.items():
+	for question in questions_list:
+		text = getWords(question)
+		counter += len(text)
+		# Loop over list of features, if 1 marker is found in text, go to next response
+		for feature in features:
+			if feature in text:
+				exists = True
+				total_exists += 1
 
-	except KeyError:
-		exists = False
-		total_exists = 0.0
-		counter = 0
-		# check number of responses which hold marker
-		for response in response_dict[author]:
 
-			text = getWords(response)
-			counter +=  len(text)
-			# Loop over list of features, if 1 marker is found in text, go to next response
-			for feature in features:
-				if feature in text:
-					exists = True
-					total_exists += 1
+			# try:
+			# 	author_dict[author][features[0]] = total_exists/counter
+			# except KeyError:
+			# 	author_dict[author] = {features[0]: total_exists/counter}
+	return total_exists/counter #, author_dict
 
-
-			try:
-				author_dict[author][features[0]] = total_exists/counter
-			except KeyError:
-				author_dict[author] = {features[0]: total_exists/counter}
-		return total_exists/counter, author_dict
-
-def get_baseline(author, features, author_dict, response_dict):
+def get_baseline(features, questions_list):
 	'''
 	Compute the baseline probabilities for this author and
 	features: count the number of features that appear (binary)
 	in the author's utterances, divide by number of utterances
 	'''
-	# Check if baseline is already known, do not compute again
-	try:
-		baseline = author_dict[author][features[0]]
-		return baseline, author_dict
-	except KeyError:
-		#all_text = []
-		#f = open(os.path.join('authors/', author+".txt"), 'r')
-		#total_length = 1.0
-		#new_utt = False
-		"""
-		for line in f:
-			line_text = getWords(line)
-			#print "Len",  len(line_text)
-			if new_utt == True:
-				for feature in features:
-					if feature in line_text:
-						total_markers += 1
-						break
-			#If we are at a new line, we are moving into a new utterance
-			if len(line_text) == 0:
-				total_length += 1
-				new_utt = True
-			else:
-				new_utt = False
-		"""
-		total_markers = 0.0
+	# # Check if baseline is already known, do not compute again
+	# try:
+	# 	baseline = author_dict[author][features[0]]
+	# 	return baseline, author_dict
+	# except KeyError:
+	# 	#all_text = []
+	# 	#f = open(os.path.join('authors/', author+".txt"), 'r')
+	# 	#total_length = 1.0
+	# 	#new_utt = False
+	# 	"""
+	# 	for line in f:
+	# 		line_text = getWords(line)
+	# 		#print "Len",  len(line_text)
+	# 		if new_utt == True:
+	# 			for feature in features:
+	# 				if feature in line_text:
+	# 					total_markers += 1
+	# 					break
+	# 		#If we are at a new line, we are moving into a new utterance
+	# 		if len(line_text) == 0:
+	# 			total_length += 1
+	# 			new_utt = True
+	# 		else:
+	# 			new_utt = False
+	# 	"""
+	total_markers = 0.0
 
-		# check number of responses which hold marker
-		for response in response_dict[author]:
-			text = getWords(response)
-			# Loop over list of features, if 1 marker is found in text, go to next response
-			for feature in features:
-				if feature in text:
-					total_markers += 1
-					break
+	# check number of responses which hold marker
+	# for key, response in response_dict.items():
+	for question in questions_list:
+		text = getWords(question)
+		# Loop over list of features, if 1 marker is found in text, go to next response
+		for feature in features:
+			if feature in text:
+				total_markers += 1
+				break
 
-		total_posts = float(author_dict[author]['number_posts'])
+		# total_posts = float(author_dict[author]['number_posts'])
+		total_posts = 2
 		# update author dict to hold baseline value
-		try:
-			author_dict[author][features[0]] = total_markers/total_posts
-		except KeyError:
-			author_dict[author] = {features[0]: total_markers/total_posts}
+		# try:
+		# 	author_dict[author][features[0]] = total_markers/total_posts
+		# except KeyError:
+		# 	author_dict[author] = {features[0]: total_markers/total_posts}
+        #
+		# """
+		# old using total_length which is created using newlines, faulty
+		# try:
+		# 	author_dict[author][features[0]] = total_markers/total_length
+		# except KeyError:
+		# 	author_dict[author] = {features[0]: total_markers/total_length}
+		# """
+	return total_markers/total_posts #, author_dict
 
-		"""
-		old using total_length which is created using newlines, faulty
-		try:
-			author_dict[author][features[0]] = total_markers/total_length
-		except KeyError:
-			author_dict[author] = {features[0]: total_markers/total_length}
-		"""
-		return total_markers/total_posts, author_dict
-
-def get_new_baseline(author, features, author_dict):
-	'''
-	NOT USED
-	Compute the baseline probabilities for this author and
-	features: count the number of features that appear (binary)
-	in the author's utterances, divide by number of utterances
-	'''
-	try:
-		baseline = author_dict[author][features[0]]
-		return baseline, author_dict
-	except KeyError:
-		post_count = 0
-		all_text = []
-		lines = ""
-		zero_case = 0
-		f = open(os.path.join('authors/', author+".txt"), 'r')
-		for line in f:
-			if line=="\n":
-				post_count += 1
-			line_text = getWords(line)
-			lines += line
-			#print "Len",  len(line_text)
-			all_text += line_text
-		num_words = len(all_text)
-		#print "Total text",
-		f_count = feature_count(all_text, features)
-		feature_value = f_count / num_words
-		#print "Feature count", f_count
-		try:
-			author_dict[author][features[0]] = feature_value
-		except KeyError:
-			author_dict[author] = {features[0]: feature_value}
-		return feature_value, author_dict
+# def get_new_baseline(author, features, author_dict):
+# 	'''
+# 	NOT USED
+# 	Compute the baseline probabilities for this author and
+# 	features: count the number of features that appear (binary)
+# 	in the author's utterances, divide by number of utterances
+# 	'''
+# 	try:
+# 		baseline = author_dict[author][features[0]]
+# 		return baseline, author_dict
+# 	except KeyError:
+# 		post_count = 0
+# 		all_text = []
+# 		lines = ""
+# 		zero_case = 0
+# 		f = open(os.path.join('authors/', author+".txt"), 'r')
+# 		for line in f:
+# 			if line=="\n":
+# 				post_count += 1
+# 			line_text = getWords(line)
+# 			lines += line
+# 			#print "Len",  len(line_text)
+# 			all_text += line_text
+# 		num_words = len(all_text)
+# 		#print "Total text",
+# 		f_count = feature_count(all_text, features)
+# 		feature_value = f_count / num_words
+# 		#print "Feature count", f_count
+# 		try:
+# 			author_dict[author][features[0]] = feature_value
+# 		except KeyError:
+# 			author_dict[author] = {features[0]: feature_value}
+# 		return feature_value, author_dict
 
 def feature_count(text, features):
 	feature_count = 0.0
@@ -348,7 +355,7 @@ def getWords(post_text):
 #
 # 	print "Reading meta data..."
 # 	with open('../data/fourforums/annotations/mechanical_turk/qr_meta.csv', 'rb') as meta_file:
-# 		reader = csv.reader(meta_file, delimiter=',', quotechar='"')
+# 		reader = csv.reader(meta_file, delimiter=',', questionchar='"')
 # 		count = 0
 # 		for row in reader:
 # 			#if count > 10:
@@ -356,11 +363,11 @@ def getWords(post_text):
 # 			key = row[0]
 # 			discussion_id = row[1]
 # 			response_post_id = row[2]
-# 			quote_post_id = row[3]
-# 			quote = row[8]
+# 			question_post_id = row[3]
+# 			question = row[8]
 # 			response = row[9]
-# 			qrpair = QRPair(key, discussion_id, response_post_id, quote_post_id)
-# 			qrpair.add_quote(quote)
+# 			qrpair = QRPair(key, discussion_id, response_post_id, question_post_id)
+# 			qrpair.add_question(question)
 # 			qrpair.add_response(response)
 # 			if discussion_id != "discussion_id":
 # 				author_dict, other_author_dict, response_dict = qrpair.update_authordict( author_dict, response_dict)
@@ -369,7 +376,7 @@ def getWords(post_text):
 # 			count +=1
 #
 # 			# save to dict to pickle for use in other scripts
-# 			pickle_dict[str(key) + str(discussion_id)] = [qrpair.quote, qrpair.response]
+# 			pickle_dict[str(key) + str(discussion_id)] = [qrpair.question, qrpair.response]
 #
 # 	pickle_dump_qrpair(pickle_dict)
 #
@@ -386,7 +393,7 @@ def getWords(post_text):
 # 	#Get annotation data:
 # 	print "Reading annotation data..."
 # 	with open('../data/fourforums/annotations/mechanical_turk/qr_averages.csv', 'rb') as average_file:
-# 		reader = csv.reader(average_file, delimiter=',', quotechar='"')
+# 		reader = csv.reader(average_file, delimiter=',', questionchar='"')
 # 		for row in reader:
 # 			try:
 # 				corresponding_pair = pair_dictionary[str(row[0]) + str(row[1])]
@@ -409,7 +416,7 @@ def getWords(post_text):
 # def pickle_dump_qrpair(pickle_dict):
 # 	"""
 # 	Dump qrpairs to file
-# 	key: str(key) + str(discussion_id),  value: [quote_text, response_text]
+# 	key: str(key) + str(discussion_id),  value: [question_text, response_text]
 # 	"""
 # 	pickle.dump( pickle_dict, open( "qr_texts.pickle", "wb" ) )
 
@@ -451,7 +458,7 @@ def getWords(post_text):
 # 		pair = pair_dictionary[qr_pair]
 # 		if pair.discussion_id != 'discussion_id':
 # 			pair.compute_alignment(features)
-# 			f.write(str(pair.quote.split()) + " ; " + str(pair.response.split()) + " ; " + str(pair.agreement) + " ; " + str(pair.sarcasm) + " ; " + str(pair.nicenasty) + " ; " + str(pair.alignment) + "\n")
+# 			f.write(str(pair.question.split()) + " ; " + str(pair.response.split()) + " ; " + str(pair.agreement) + " ; " + str(pair.sarcasm) + " ; " + str(pair.nicenasty) + " ; " + str(pair.alignment) + "\n")
 # 	f.close()
 
 def get_features_from_file(file_name):
@@ -467,54 +474,115 @@ def get_features_from_file(file_name):
     return feature_list
 
 
-if __name__=="__main__":
-	#'adverbs', 'articles', 'auxiliaryverbs', 'conjunctions',
-	#markers = ['adverbs']#
-	weight_vector = np.array([0.8, 0.2])
-	markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
-	#markers = ['number_posts']
-	smoothing = 0.1
-	for mark in markers:
-		print "Getting features for", mark
-		if mark != "number_posts" :
-			features = get_features_from_file('coordination_markers/'+mark+'.txt')
-		else:
-			features = [mark]
+# if __name__=="__main__":
+# 	#'adverbs', 'articles', 'auxiliaryverbs', 'conjunctions',
+# 	#markers = ['adverbs']#
+# 	weight_vector = np.array([0.8, 0.2])
+# 	markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
+# 	#markers = ['number_posts']
+# 	smoothing = 0.1
+# 	total_alignment = {}
+# 	alignment_scores = {}
+# 	scores = 0
+# 	for mark in markers:
+# 		print("Getting features for", mark)
+# 		if mark != "number_posts" :
+# 			features = get_features_from_file('coordination_markers/'+mark+'.txt')
+# 		else:
+# 			features = [mark]
+#
+# 		response_dict = {40.0: "You're making your point.", 50.0: 'Swearing is often cathartic.'}
+# 		# align = Align("you cunt, why won't you tell me something", responses_dict)
+# 		question = "you cunt, why won't you tell me something"
+# 		questions_list = ["you cunt, why won't you tell me something", "i love you"]
+#
+# 		# question_post = Post(question, "user")
+#         # for key, response in responses_dict.items():
+#         #     response_post = Post(response, "chatbot")
+#         #     utterance = Utterance(question_post, response_post, key)
+#         #     author1 = Author(utterance.response_object.author)
+#         #     self.author_dict[utterance.response_object.author] = author1
+#         #     author2 = Author(utterance.question_object.author)
+#         #     self.author_dict[utterance.question_object.author] = author2
+#         #     author1.add_utterance(utterance)
+#         #     author2.add_utterance(utterance)
+#         #     self.utterance_dict[str(key)] = utterance
+#
+# 		pair_dictionary = {}
+# 		for question in questions_list:
+# 			for key, response in response_dict.items():
+# 				qrpair = QRPair(key)
+# 				qrpair.add_question(question)
+# 				qrpair.add_response(response)
+# 				pair_dictionary[str(key)] = qrpair
+#
+# 		alignment_dict = {}
+# 		# Loop through all qrpairs again to compute alignment
+# 		for k, qrpair in pair_dictionary.items():
+# 			# some qrpairs do not have the author dict and response dict
+# 			try:
+# 				alignment_dict[k] = qrpair.compute_alignment(features, questions_list, smoothing, weight_vector, alternative="final")
+# 			except:
+# 				pass
+#
+# 		print(alignment_dict)
+# 		for key, score in alignment_dict.items():
+# 			alignment_scores.setdefault(key, []).append(score)
+# 		# for key, res in response_dict.items():
+# 		# 	# print("KEY", type(k))
+# 		# 	for k, score in alignment_dict.items():
+# 		# 		# print("K", type(key))
+# 		# 		if key == float(k):
+# 		# 			print("hello")
+# 		# 			# print(k)
+# 		# 			if score != None:
+# 		# 				print(score)
+# 		# 				scores += score
+# 		# 				print(scores)
+# 		# 		total_alignment[k] = scores
+#
+# 		# years_dict = dict()
+#
+#
+# 		# for k, line in alignment_dict.items():
+# 		# 	print(line)
+# 		#     if k, line[0] in total_alignment.items():
+# 		#         # append the new number to the existing array at this slot
+# 		# 		total_alignment[line[0]].append(line[1])
+# 		#     else:
+# 		#         # create a new array in this slot
+# 		# 		total_alignment[line[0]] = [line[1]]
+#
+#
+#
+# 	# total_alignment = {}
+# 	# scores = 1
+# 	# for k, scores in alignment_scores.items():
+# 	# 	# print(scores)
+# 	# 	for score in scores:
+# 	# 		if score != 0.0:
+# 	# 			print(type(score))
+# 	# 			scores *= int(score)
+# 	# 	total_alignment[k] = scores
+# 	# print(total_alignment)
+# 	# result = {k:v for k,v in alignment_scores.items() if v != None}
+# 	# print("Hello", result)
+# 	print(alignment_scores)
+# 	# print({k:sum(map(int, v)) for k, v in alignment_scores.items()})
+# 	total_alignment = {key: sum(alignment_scores[key]) for key in alignment_scores}
+# 	print(total_alignment)
+# 	# print(max(total_alignment.items(), key=operator.itemgetter(1))[0])
+# 	# val = list(total_alignment.values())[0]
+# 	# print(all(value == val for value in total_alignment.values()))
+# 	score = list(total_alignment.values())[0]
+# 	if all(value == score for value in total_alignment.values()) == True:
+# 		print(max(total_alignment.items(), key=operator.itemgetter(1))[0])
+# 	else:
+# 		print("hello")
 
-		responses_dict = {40.0: "You're making your point.", 50.0: 'Swearing is often cathartic.'}
-		# align = Align("you cunt, why won't you tell me something", responses_dict)
-		quote = "you cunt, why won't you tell me something"
-
-		# quote_post = Post(quote, "user")
-        # for key, response in responses_dict.items():
-        #     response_post = Post(response, "chatbot")
-        #     utterance = Utterance(quote_post, response_post, key)
-        #     author1 = Author(utterance.response_object.author)
-        #     self.author_dict[utterance.response_object.author] = author1
-        #     author2 = Author(utterance.quote_object.author)
-        #     self.author_dict[utterance.quote_object.author] = author2
-        #     author1.add_utterance(utterance)
-        #     author2.add_utterance(utterance)
-        #     self.utterance_dict[str(key)] = utterance
-
-		pair_dictionary = {}
-		for key, response in response_dict.items():
-			qrpair = QRPair(key)
-			qrpair.add_quote(quote)
-			qrpair.add_response(response)
-			pair_dictionary[str(key)] = qrpair
-
-		alignment_dict = {}
-		# Loop through all qrpairs again to compute alignment
-		for k, qrpair in pair_dictionary.items():
-			# some qrpairs do not have the author dict and response dict
-			try:
-				alignment_dict[k] = qrpair.compute_alignment(features, author_dict, other_author_dict, response_dict, smoothing, weight_vector, alternative="final")
-			except:
-				pass
 
 		# qrpair = QRPair(key)
-		# qrpair.add_quote(quote)
+		# qrpair.add_question(question)
 		# qrpair.add_response(response)
 
 		# print "Reading data from file..."
