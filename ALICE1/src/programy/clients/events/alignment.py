@@ -8,53 +8,52 @@ import operator
 
 
 class QRPair:
+    # Add question text to object
 	def add_question(self, question):
-		'''
-		Add question text to object
-		'''
 		self.question = question
 
+    # Add response text to object
 	def add_response(self, response):
-		'''
-		Add response text to object
-		'''
 		self.response = response
 
+    # Compute alignment score of a question-response pair. The baseline of the user history is determined to ensure
+    # that preferences for certain markers do not influence the result. If the question is empty, if none of the
+    # features is found in text or if the feature count divided by the length is zero, there is no alignment.
+    # The actual alignment between question and response can be calculted using four different alternatives.
 	def compute_alignment(self, features, questions_list, smoothing, weight_vector, alternative="matching"):
-		# base_prob, autor_dict = get_baseline(self.response_author, features, author_dict, response_dict)
-		# base_prob = get_baseline(features, response_dict)
+        # Determine baseline of user history
 		base_prob = get_baseline(features, questions_list)
-
-		# other_base_prob, other_author_dict = other_baseline(self.response_author, features, other_author_dict, response_dict)
-		# other_base_prob = other_baseline(features, response_dict)
 		other_base_prob = other_baseline(features, questions_list)
 		conditional_prob = self.response_prob(features)
 
 		value_vector = np.array([other_base_prob, base_prob])
-
 		scalarized = np.dot(weight_vector, value_vector)
 
+        # Get needed information from question and response
 		question_text = getWords(self.question)
 		response_text = getWords(self.response)
 		self.response_length = len(response_text)
 		question_text = getWords(self.question)
 		self.question_length = len(question_text)
 
-		# question is empty -> no alignment
+		# If question is empty there is no alignment
 		if len(question_text) == 0:
 			self.alignment = 0
 			return self.alignment
 
+        # If none of the features is found in the text there is no alignment
 		q_count = feature_count(question_text, features)
 		if q_count == 0 and features[0] != "number_posts":
 			self.alignment = 0
 			return self.alignment
-		q_m = (q_count + smoothing) / (len(question_text) + smoothing)
 
+        # If the feature count divided by the length is zero there is no alignment
+		q_m = (q_count + smoothing) / (len(question_text) + smoothing)
 		if q_m == 0:
 			self.alignment = 0
 			return self.alignment
 
+        # Calculate alignment using four different alternatives.
 		r_m = (feature_count(response_text, features) + smoothing) / (len(response_text) + smoothing)
 		match = self.matching(q_m, r_m)
 		if alternative == "alternative":
@@ -67,16 +66,15 @@ class QRPair:
 			self.alignment = conditional_prob - scalarized
 		return self.alignment
 
+    # Match question and response
 	def matching(self, q_m, r_m):
 		if q_m == r_m:
 			return 1
 		else:
 			return min(q_m, r_m)
 
+    # See if the features appear in the utterance at all (binary)
 	def response_prob(self, features):
-		'''
-		See if the features appear in the utterance at all (binary)
-		'''
 		response_text = getWords(self.response)
 		total_markers = False
 		for feature in features:
@@ -84,11 +82,12 @@ class QRPair:
 				total_markers = True
 		return int(total_markers)
 
+# Compute the baseline probabilities for all questions and features.
 def other_baseline(features, questions_list):
 	exists = False
 	total_exists = 0.0
 	counter = 0
-	# check number of responses which hold marker
+	# Check number of questions which hold marker
 	for question in questions_list:
 		text = getWords(question)
 		counter += len(text)
@@ -99,6 +98,8 @@ def other_baseline(features, questions_list):
 				total_exists += 1
 	return total_exists/counter
 
+# Compute the baseline probabilities for all questions and features. Count the number of features
+# that appear (binary) in the question and divide by the number of utterances.
 def get_baseline(features, questions_list):
 	'''
 	Compute the baseline probabilities for this author and
@@ -106,7 +107,7 @@ def get_baseline(features, questions_list):
 	in the author's utterances, divide by number of utterances
 	'''
 	total_markers = 0.0
-	# check number of responses which hold marker
+	# Check number of responses which hold marker
 	for question in questions_list:
 		text = getWords(question)
 		# Loop over list of features, if 1 marker is found in text, go to next response
@@ -118,6 +119,7 @@ def get_baseline(features, questions_list):
 		total_posts = 2
 	return total_markers/total_posts
 
+# Count the total number of features found in the text
 def feature_count(text, features):
 	feature_count = 0.0
 	for word in text:
@@ -125,10 +127,8 @@ def feature_count(text, features):
 			feature_count += 1.0
 	return feature_count
 
+# Written by Julian. Proces the text and return the words.
 def getWords(post_text):
-	'''
-	Written by Julian
-	'''
 	text = post_text.split(" ")
 	text2 = []
 	for word in text:
@@ -145,6 +145,8 @@ def getWords(post_text):
 	return text2
 
 
+
+# Used for testing purposes only
 # if __name__=="__main__":
 # 	weight_vector = np.array([0.8, 0.2])
 # 	markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']

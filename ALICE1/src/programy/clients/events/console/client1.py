@@ -17,21 +17,17 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR TH
 
 import nltk
 from heapq import nsmallest
-# from heapq import nlargest
 import pandas as pd
-import csv
 import numpy as np
-import time
 import operator
+import time
 
 from programy.utils.logging.ylogger import YLogger
 
 from programy.clients.events.client import EventBotClient
 from programy.clients.events.console.config import ConsoleConfiguration
-from programy.clients.render.text import TextRenderer
-
-# from alignment import QRPair
 from programy.clients.events.alignment import QRPair
+from programy.clients.render.text import TextRenderer
 
 # Create formal and informal word lists
 formal_file = open("FormalityLists/formal_seeds_100.txt", "r")
@@ -55,7 +51,9 @@ for line in text_file:
     formal.append(lines[1])
 
 # # Read GloVe pre trained vectors and make a matrix of it
-# words = pd.read_table("glove.6B/glove.6B.50d.1.txt", sep=" ", index_col=0, header=None, quoting=csv.question_NONE)
+# # Used to test the influence of using GloVe vectors
+# # Unzip glove.6B.50.1.txt before running this code
+# words = pd.read_table("glove.6B/glove.6B.50d.1.txt", sep=" ", index_col=0, header=None, quoting=csv.QUOTE_NONE)
 # words_matrix = words.as_matrix()
 # word_list = words.index
 
@@ -66,7 +64,7 @@ class ConsoleBotClient(EventBotClient):
         EventBotClient.__init__(self, "Console", argument_parser)
         self._renderer = TextRenderer(self)
 
-        # Added user history variable
+        # Variables added for Thesis
         self.user_history = ""
         self.user_his_list = []
         self.question_number = 0
@@ -88,6 +86,8 @@ class ConsoleBotClient(EventBotClient):
         ask = "%s " % self.get_client_configuration().prompt
         return input_func(ask)
 
+    # Displays the startup message which consists of introductory questions to learn more about
+    # the language use of a user.
     def display_startup_messages(self, client_context):
         self.process_response(client_context, client_context.bot.get_version_string(client_context))
         # initial_question = client_context.bot.get_initial_question(client_context)
@@ -110,8 +110,10 @@ class ConsoleBotClient(EventBotClient):
 
     # All answers between random tag are split by 11039841. Formality of the user is compared to the
     # formality of the random responses. The two responses with a formality closest to that of the user
-    # are returned. If there is just a single possible answer, it gets directly returned.
-    # Also made sure "@" is replaced with "at".
+    # are used to find the most linguistically aligned response, which is returned. If both responses
+    # have the same alignment score the response which has a formality score closest to that of the user
+    # is returned. If there is just a single possible answer, it gets directly returned.
+    # Also makes sure "@" is replaced with "at" and "<3" with "heart".
     def process_response(self, client_context, response):
         if "11039841" in response:
             if "@" in response:
@@ -121,12 +123,16 @@ class ConsoleBotClient(EventBotClient):
             responses_formality = {}
             best_responses = {}
             two_best_responses = []
+
+            # Split by 11039841 and remove empty items from list
             sentences = response.split("11039841")
             sentences = [x for x in sentences if x]
 
             # Determine formality for all possible responses
-            start_time = time.time()
+            # start_time = time.time() # Used to test the influence of using GloVe vectors
             for sentence in sentences:
+                responses_formality[self.determine_formality(sentence)] = sentence
+            #   # Used to test the influence of using GloVe vectors
             #     glove = 1
             #     formality = self.determine_formality(sentence)
             #     difference = self.user_formality - formality
@@ -140,18 +146,13 @@ class ConsoleBotClient(EventBotClient):
             #                         glove *= 1.1
             #                     elif difference < 0:
             #                         glove *= 0.9
-            #                 # else:
-            #                 #     glove *= 0.9
             #     responses_formality[formality * glove] = sentence
-                responses_formality[self.determine_formality(sentence)] = sentence
 
             for key, val in responses_formality.items():
                  print(key, "=>", val)
 
             # Find the two responses with closest formality to user formality
             two_best_formality = nsmallest(2, responses_formality, key=lambda x:abs(x-self.user_formality))
-            # best = min(responses_formality, key=lambda x:abs(x-self.user_formality))
-            # print(best)
             two_best_responses.extend((responses_formality[two_best_formality[0]], responses_formality[two_best_formality[1]]))
 
             for item in two_best_formality:
@@ -159,15 +160,16 @@ class ConsoleBotClient(EventBotClient):
             print(best_responses)
 
             print(two_best_responses)
-            # print("--- %s seconds ---" % (time.time() - start_time))
+            # print("--- %s seconds ---" % (time.time() - start_time)) # Used to test the influence of using GloVe vectors
+
+            # Determine alignment score of the two best responses
             total_alignment = self.determine_alignment(best_responses)
             print(total_alignment)
             score = list(total_alignment.values())[0]
+            # If scores are equal, print closest formality response. Else print maximum alignment response
             if all(value == score for value in total_alignment.values()) == True:
-                # print("hello")
                 print(two_best_responses[0])
             else:
-                # print("bye")
                 print(best_responses[max(total_alignment.items(), key=operator.itemgetter(1))[0]])
         else:
             if "@" in response:
@@ -176,25 +178,28 @@ class ConsoleBotClient(EventBotClient):
                 response = response.replace("<3", " heart")
             print(response)
 
+    # Add question to the user history and determines the formality over the whole user history. If A.L.I.C.E. responds
+    # to the user for the first time, it will not repond according to its AIML, but will give fixed response.
     def process_question_answer(self, client_context):
         question = self.get_question(client_context)
 
-        # Expands user history
+        # Expand user history
         self.user_history = self.user_history + question + ". "
         self.user_his_list.append(question)
-        # print(self.user_his_list)
 
-        # Determines user formality over whole user history
+        # Determine user formality over whole user history
         self.user_formality = self.determine_formality(self.user_history)
         print(self.user_formality)
 
-        # Makes sure A.L.I.C.E. doesn't try to respond to the introductory questions
+        # Make sure A.L.I.C.E. doesn't try to respond to the introductory questions
         if self.question_number == 1:
             response = "Thank you very much for telling me something about yourself! How can I help you today?"
         else:
             response = self.process_question(client_context, question)
         self.render_response(client_context, response)
 
+    # Keep track of the number of questions a user asks. This is useful for making sure A.L.I.C.E. does not respond to the
+    # introductory questions and for evaluating the conversation length.
     def wait_and_answer(self):
         running = True
         try:
@@ -218,7 +223,11 @@ class ConsoleBotClient(EventBotClient):
         client_context = self.create_client_context(self._configuration.client_configuration.default_userid)
         self.display_startup_messages(client_context)
 
-    # Determine the total formality score of the input sentence
+    # Determine the total formality score of the input by computing the frequency of nouns, adjectives, prepositions
+    # articles, pronouns, verbs, adverbs and interjections. If a word of the input exists in the formal words list
+    # the formality score will be increased with 10% and if a word of the input exists in the informal words list
+    # the formality score will be decreased with 10%. The total formality score will be returned. The higher the score
+    # the more formal the input.
     def determine_formality(self, sentence):
         sentence = sentence.lower()
 
@@ -226,10 +235,11 @@ class ConsoleBotClient(EventBotClient):
         text = nltk.word_tokenize(sentence)
         s_len = float(len(text))
         tagged = nltk.pos_tag(text)
-        NN_count = JJ_count = IN_count = DT_count = PRP_count = VB_count = RB_count = UH_count = 0#formality = 0
+        NN_count = JJ_count = IN_count = DT_count = PRP_count = VB_count = RB_count = UH_count = 0
         formality = 1
 
-        # Get the counts needed to determine frequencys for calculation of F score
+        # Get the counts needed to determine frequencys for calculation of F-score
+        # If punctuation is encountered, decrease the length of the sentence by 1
         for tag in tagged:
             if tag[1] == "NN" or tag[1] == "NNS" or tag[1] == "NNP" or tag[1] == "NNS":
                 NN_count += 1
@@ -251,25 +261,24 @@ class ConsoleBotClient(EventBotClient):
         # Increase formality score if a formal word is encountered and decrease it if an informal word is encountered
         for tag in tagged:
             if tag[0] in formal:
-                formality *=1.1#+= 10
+                formality *=1.1
             elif tag[0] in informal:
-                formality *0.9#-= 10
-
-        # return formality/s_len + self.f_score(NN_count/s_len*100, JJ_count/s_len*100, IN_count/s_len*100, DT_count/s_len*100,
-        #         PRP_count/s_len*100, VB_count/s_len*100, RB_count/s_len*100, UH_count/s_len*100)
+                formality *0.9
 
         return formality * self.f_score(NN_count/s_len*100, JJ_count/s_len*100, IN_count/s_len*100, DT_count/s_len*100,
                 PRP_count/s_len*100, VB_count/s_len*100, RB_count/s_len*100, UH_count/s_len*100)
 
-    # Calculation of the F score
+    # Calculate the F-score
     def f_score(self, NN_freq, JJ_freq, IN_freq, DT_freq, PRP_freq, VB_freq, RB_freq, UH_freq):
         return ((NN_freq + JJ_freq + IN_freq + DT_freq - PRP_freq - VB_freq - RB_freq - UH_freq + 100)/2)
 
     # Make vector for certain word
+    # Used to test the influence of using GloVe vectors
     def vec(self, word):
         return words.loc[word].as_matrix()
 
     # Retrieve N closest (most similar) words
+    # Used to test the influence of using GloVe vectors
     def find_N_closest_words(self, vector, N, words):
         Nwords = []
         for w in range(N):
@@ -280,8 +289,11 @@ class ConsoleBotClient(EventBotClient):
             words = words.drop(words.iloc[i].name, axis=0)
         return Nwords
 
+    # Determine the total alignment score of the responses of the chatbot to the whole user history. Alignment will be calculated
+    # for each coordination marker and question-response pair. The sum of all alignment scores will be returned for each response.
     def determine_alignment(self, response_dict):
-        weight_vector = np.array([0.8, 0.2])
+        # weight_vector = np.array([0.8, 0.2])
+        weight_vector = np.array([0.5, 0.5])
         markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
         smoothing = 0.1
         alignment_scores = {}
@@ -292,6 +304,7 @@ class ConsoleBotClient(EventBotClient):
             else:
                 features = [mark]
 
+            # Create question-reponse pairs
             pair_dictionary = {}
             for question in self.user_his_list:
                 for key, response in response_dict.items():
@@ -303,23 +316,17 @@ class ConsoleBotClient(EventBotClient):
             alignment_dict = {}
     		# Loop through all qrpairs again to compute alignment
             for k, qrpair in pair_dictionary.items():
-    			# some qrpairs do not have the author dict and response dict
-                try:
-                    alignment_dict[k] = qrpair.compute_alignment(features, self.user_his_list, smoothing, weight_vector, alternative="final")
-                except:
-                    pass
+                alignment_dict[k] = qrpair.compute_alignment(features, self.user_his_list, smoothing, weight_vector, alternative="final")
 
+            # Append all scores for the same respons
             for key, score in alignment_dict.items():
                 alignment_scores.setdefault(key, []).append(score)
 
     	# Return total alignment scores
         return {key: sum(alignment_scores[key]) for key in alignment_scores}
 
+    # Read a list of feature words from file_name and return a list of all the words
     def get_features_from_file(self, file_name):
-        """
-        Read a list of feature words from file_name,
-        and return a list of all the words
-        """
         feature_list = []
         f = open(file_name, 'r')
         for line in f:
