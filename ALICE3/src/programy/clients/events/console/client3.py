@@ -274,11 +274,13 @@ class ConsoleBotClient(EventBotClient):
 
     # Make vector for certain word
     # Used to test the influence of using GloVe vectors
+    # Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
     def vec(self, word):
         return words.loc[word].as_matrix()
 
     # Retrieve N closest (most similar) words
     # Used to test the influence of using GloVe vectors
+    # Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
     def find_N_closest_words(self, vector, N, words):
         Nwords = []
         for w in range(N):
@@ -291,6 +293,8 @@ class ConsoleBotClient(EventBotClient):
 
     # Determine the total alignment score of the responses of the chatbot to the whole user history. Alignment will be calculated
     # for each coordination marker and question-response pair. The sum of all alignment scores will be returned for each response.
+    # The code below is obtained from: https://bitbucket.org/sagieske/project_cop/src/master/IAC/iac_v1.1/research_code/qrpairs.py
+    # This has been done with permission from Sharon Gieske. The code has been changed to fit the purpose of this Thesis.
     def determine_alignment(self, response_dict):
         weight_vector = np.array([0.8, 0.2])
         markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
@@ -324,7 +328,9 @@ class ConsoleBotClient(EventBotClient):
     	# Return total alignment scores
         return {key: sum(alignment_scores[key]) for key in alignment_scores}
 
-    # Read a list of feature words from file_name and return a list of all the words
+    # Read a list of feature words from file_name and return a list of all the words.
+    # The code below is obtained from: https://bitbucket.org/sagieske/project_cop/src/master/IAC/iac_v1.1/research_code/qrpairs.py
+    # This has been done with permission from Sharon Gieske.
     def get_features_from_file(self, file_name):
         feature_list = []
         f = open(file_name, 'r')

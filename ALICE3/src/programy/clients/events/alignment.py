@@ -1,3 +1,6 @@
+# All code in this file is obtained from: https://bitbucket.org/sagieske/project_cop/src/master/IAC/iac_v1.1/research_code/qrpairs.py
+# This has been done with permission from Sharon Gieske. The code has been changed to fit the purpose of this Thesis.
+
 import csv
 import json
 import os

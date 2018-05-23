@@ -16,7 +16,7 @@ start_time = time.time()
 #                 output.write(line)
 
 # Read GloVe pre trained vectors and make a matrix of it
-# Code used from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
+# Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
 # Unzip glove.6B.50.1.txt before running this code
 words = pd.read_table("glove.6B.50d.1.txt", sep=" ", index_col=0, header=None, quoting=csv.QUOTE_NONE)
 words_matrix = words.as_matrix()
@@ -26,12 +26,12 @@ mid_time = time.time()
 print("--- %s seconds ---" % (time.time() - start_time))
 
 # Make vector for certain word
-# Code used from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
+# Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
 def vec(word):
     return words.loc[word].as_matrix()
 
 # Retrieve N closest (most similar) words
-# Code used from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
+# Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
 def find_N_closest_words(vector, N, words):
     Nwords = []
     for w in range(N):
