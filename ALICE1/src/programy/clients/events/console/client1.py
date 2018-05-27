@@ -296,7 +296,6 @@ class ConsoleBotClient(EventBotClient):
     # The code below is obtained from: https://bitbucket.org/sagieske/project_cop/src/master/IAC/iac_v1.1/research_code/qrpairs.py
     # This has been done with permission from Sharon Gieske. The code has been changed to fit the purpose of this Thesis.
     def determine_alignment(self, response_dict):
-        # weight_vector = np.array([0.8, 0.2])
         weight_vector = np.array([0.5, 0.5])
         markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
         smoothing = 0.1
@@ -320,7 +319,7 @@ class ConsoleBotClient(EventBotClient):
             alignment_dict = {}
     		# Loop through all qrpairs again to compute alignment
             for k, qrpair in pair_dictionary.items():
-                alignment_dict[k] = qrpair.compute_alignment(features, self.user_his_list, smoothing, weight_vector, alternative="final")
+                alignment_dict[k] = qrpair.compute_alignment(features, self.user_his_list, smoothing, weight_vector)
 
             # Append all scores for the same respons
             for key, score in alignment_dict.items():

@@ -79,8 +79,10 @@ class QRPair:
     # See if the features appear in the utterance at all (binary)
 	def response_prob(self, features):
 		response_text = getWords(self.response)
+		# question_text = getWords(self.question)
 		total_markers = False
 		for feature in features:
+			# if feature in question_text and feature in response_text:
 			if feature in response_text:
 				total_markers = True
 		return int(total_markers)
@@ -104,11 +106,6 @@ def other_baseline(features, questions_list):
 # Compute the baseline probabilities for all questions and features. Count the number of features
 # that appear (binary) in the question and divide by the number of utterances.
 def get_baseline(features, questions_list):
-	'''
-	Compute the baseline probabilities for this author and
-	features: count the number of features that appear (binary)
-	in the author's utterances, divide by number of utterances
-	'''
 	total_markers = 0.0
 	# Check number of responses which hold marker
 	for question in questions_list:
@@ -147,51 +144,69 @@ def getWords(post_text):
 	text2 = [word.strip().strip(',.-#') for word in text2]
 	return text2
 
+# Read a list of feature words from file_name and return a list of all the words.
+def get_features_from_file(file_name):
+	feature_list = []
+	f = open(file_name, 'r')
+	for line in f:
+		feature_list.append(line.split("\n")[0])
+	f.close()
+	return feature_list
+
 
 
 # Used for testing purposes only
-# if __name__=="__main__":
-# 	weight_vector = np.array([0.8, 0.2])
-# 	markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
-# 	smoothing = 0.1
-# 	alignment_scores = {}
-# 	scores = 0
-# 	for mark in markers:
-# 		if mark != "number_posts" :
-# 			features = get_features_from_file('coordination_markers/'+mark+'.txt')
-# 		else:
-# 			features = [mark]
-#
-# 		response_dict = {40.0: "You're making your point.", 50.0: 'Swearing is often cathartic.'}
-# 		question = "you cunt, why won't you tell me something"
-# 		questions_list = ["you cunt, why won't you tell me something", "i love you"]
-#
-# 		pair_dictionary = {}
-# 		for question in questions_list:
-# 			for key, response in response_dict.items():
-# 				qrpair = QRPair()
-# 				qrpair.add_question(question)
-# 				qrpair.add_response(response)
-# 				pair_dictionary[str(key)] = qrpair
-#
-# 		alignment_dict = {}
-# 		# Loop through all qrpairs again to compute alignment
-# 		for k, qrpair in pair_dictionary.items():
-# 			# some qrpairs do not have the author dict and response dict
-# 			try:
-# 				alignment_dict[k] = qrpair.compute_alignment(features, questions_list, smoothing, weight_vector, alternative="final")
-# 			except:
-# 				pass
-#
-# 		print(alignment_dict)
-# 		for key, score in alignment_dict.items():
-# 			alignment_scores.setdefault(key, []).append(score)
-#
-# 	print(alignment_scores)
-# 	total_alignment = {key: sum(alignment_scores[key]) for key in alignment_scores}
-# 	print(total_alignment)
-# 	score = list(total_alignment.values())[0]
-# 	if all(value == score for value in total_alignment.values()) == True:
-# 		print(max(total_alignment.items(), key=operator.itemgetter(1))[0])
-# 	else:
-# 		print("hello")
+if __name__=="__main__":
+	weight_vector = np.array([0.5, 0.5])
+	# weight_vector = np.array([0.8, 0.2])
+	markers = ['adverbs', 'articles', 'auxiliaryverbs', 'conjunctions', 'impersonalpronouns', 'personalpronouns', 'prepositions', 'quantifiers', 'number_posts']
+	smoothing = 0.1
+	alignment_scores = {}
+	scores = 0
+	for mark in markers:
+		if mark != "number_posts" :
+			features = get_features_from_file('coordination_markers/'+mark+'.txt')
+		else:
+			features = [mark]
+
+		# response_dict = {72.22222222222221: 'Swearing is like using the horn on your car.', 50.0: 'Swearing is often cathartic.'}
+		# question = "you cunt, why won't you tell me something"
+		# questions_list = ["Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.", "you cunt, why won't you tell me something"]
+
+		# response_dict = {50.0: 'I am deeply appreciative of who you are.', 68.75: 'I can see your great capacities and gifts.'}
+		# question = "do you love me"
+		# questions_list = ["Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.", "you cunt, why won't you tell me something", "do you love me"]
+
+		response_dict = {77.77777777777779: 'I do have a fabulous computer sense of humor.', 78.57142857142858: "I'm not aware that I've a SENSE OF HUMOUR at this time."}
+		question = "do you have a sense of humour"
+		questions_list = ["Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.", "you cunt, why won't you tell me something", "do you love me", "do you have a sense of humour"]
+
+		pair_dictionary = {}
+		for question in questions_list:
+			for key, response in response_dict.items():
+				qrpair = QRPair()
+				qrpair.add_question(question)
+				qrpair.add_response(response)
+				pair_dictionary[key] = qrpair
+
+		alignment_dict = {}
+		# Loop through all qrpairs again to compute alignment
+		for k, qrpair in pair_dictionary.items():
+			# some qrpairs do not have the author dict and response dict
+			try:
+				alignment_dict[k] = qrpair.compute_alignment(features, questions_list, smoothing, weight_vector, alternative="final")
+			except:
+				pass
+
+		print(alignment_dict)
+		for key, score in alignment_dict.items():
+			alignment_scores.setdefault(key, []).append(score)
+
+	print(alignment_scores)
+	total_alignment = {key: sum(alignment_scores[key]) for key in alignment_scores}
+	print(total_alignment)
+	score = list(total_alignment.values())[0]
+	if all(value == score for value in total_alignment.values()) == True:
+		print("Return response with closest formality score to user history")
+	else:
+		print(response_dict[max(total_alignment.items(), key=operator.itemgetter(1))[0]])
