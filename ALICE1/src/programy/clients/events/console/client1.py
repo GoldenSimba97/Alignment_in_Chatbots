@@ -130,6 +130,7 @@ class ConsoleBotClient(EventBotClient):
             sentences = [x for x in sentences if x]
 
             self.formality_measure(sentences)
+            # Used to test the influence of using GloVe vectors
             # self.glove_measure(sentences)
             self.alignment_measure(sentences)
         else:
@@ -171,7 +172,7 @@ class ConsoleBotClient(EventBotClient):
 
     # Use GloVe measure. GloVe score is increased by one if one of the similar words to the words in the user question
     # is also found in the response. Responses are sorted by their GloVe score. The response with the highest score is
-    #  returned. The results are written to a results file.
+    # returned. The results are written to a results file.
     def glove_measure(self, sentences):
         responses_glove = {}
 

@@ -130,6 +130,7 @@ class ConsoleBotClient(EventBotClient):
             sentences = [x for x in sentences if x]
 
             self.formality_measure(sentences)
+            # Used to test the influence of using GloVe vectors
             # self.glove_measure(sentences)
             self.alignment_measure(sentences)
         else:
