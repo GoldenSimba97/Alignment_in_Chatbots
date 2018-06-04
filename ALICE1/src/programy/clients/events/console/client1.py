@@ -381,7 +381,7 @@ class ConsoleBotClient(EventBotClient):
             output.write(str(self.question_number - 1) + "\n")
             output.write(str(self.user_formality) + "\n")
             output.write(str(ranking) + "\n")
-            output.write(str(ranking[0][0]) + "\n")
+            output.write(str(ranking[0][0]) + " => " + str(self.determine_formality(str(ranking[0][0]))) + "\n")
 
     # Write results for single possible response
     def write_results_to_file2(self, response):
