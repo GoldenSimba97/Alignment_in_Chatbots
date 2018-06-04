@@ -109,6 +109,8 @@ def determine_formality(sentence):
             IN_count += 1
         elif tag[1] == "DT":
             DT_count += 1
+        elif tag[1] == "PRP" or tag[1] == "PRP$" or tag[1] == "WP" or tag[1] == "WP$":
+            PRP_count += 1
         elif tag[1] == "VB" or tag[1] == "VBD" or tag[1] == "VBG" or tag[1] == "VBN" or tag[1] == "VBP" or tag[1] == "VBZ":
             VB_count += 1
         elif tag[1] == "RB" or tag[1] == "RBR" or tag[1] == "RBS" or tag[1] == "WRB":

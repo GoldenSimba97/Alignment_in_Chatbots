@@ -139,6 +139,8 @@ class ConsoleBotClient(EventBotClient):
             if "<3" in response:
                 response = response.replace("<3", " heart")
             print(response)
+            if self.question_number > 0 and response != "\nBye!":
+                self.write_results_to_file2(response)
 
     # Use F-score and formal/informal words lists measure. Reponses are sorted by their difference to the user history.
     # The response with the formality score closest to that of the user history is returned. The results are written
@@ -270,7 +272,7 @@ class ConsoleBotClient(EventBotClient):
         NN_count = JJ_count = IN_count = DT_count = PRP_count = VB_count = RB_count = UH_count = 0
         formality = 1
 
-        # Get the counts needed to determine frequencys for calculation of F-score
+        # Get the counts needed to determine frequencies for calculation of F-score
         # If punctuation is encountered, decrease the length of the sentence by 1
         for tag in tagged:
             if tag[1] == "NN" or tag[1] == "NNS" or tag[1] == "NNP" or tag[1] == "NNS":
@@ -281,6 +283,8 @@ class ConsoleBotClient(EventBotClient):
                 IN_count += 1
             elif tag[1] == "DT":
                 DT_count += 1
+            elif tag[1] == "PRP" or tag[1] == "PRP$" or tag[1] == "WP" or tag[1] == "WP$":
+                PRP_count += 1
             elif tag[1] == "VB" or tag[1] == "VBD" or tag[1] == "VBG" or tag[1] == "VBN" or tag[1] == "VBP" or tag[1] == "VBZ":
                 VB_count += 1
             elif tag[1] == "RB" or tag[1] == "RBR" or tag[1] == "RBS" or tag[1] == "WRB":
@@ -378,6 +382,14 @@ class ConsoleBotClient(EventBotClient):
             output.write(str(self.user_formality) + "\n")
             output.write(str(ranking) + "\n")
             output.write(str(ranking[0][0]) + "\n")
+
+    # Write results for single possible response
+    def write_results_to_file2(self, response):
+        for filename in self.filenames:
+            with open(filename, "a") as output:
+                output.write(str(self.question_number - 1) + "\n")
+                output.write(str(self.user_formality) + "\n")
+                output.write(str(response) + " => " + str(self.determine_formality(str(response))) + "\n")
 
 
 
