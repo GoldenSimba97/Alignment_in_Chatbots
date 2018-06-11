@@ -16,12 +16,15 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR TH
 """
 
 import nltk
-from heapq import nlargest
+from heapq import nsmallest
+import pandas as pd
 import numpy as np
-import time
 import operator
-import time
-# Only needed when using GloVe
+
+# Only used for testing purposes
+# import time
+
+# Only used for testing purposes (GloVe)
 # import csv
 
 from programy.utils.logging.ylogger import YLogger
@@ -31,30 +34,22 @@ from programy.clients.events.console.config import ConsoleConfiguration
 from programy.clients.events.alignment import QRPair
 from programy.clients.render.text import TextRenderer
 
-# Create formal and informal word lists
-formal_file = open("FormalityLists/formal_seeds_100.txt", "r")
+# Open formal and informal word lists
 formal = []
+formal_file = open("FormalityLists/formal_list", "r")
 for line in formal_file:
-    line = line.replace("\r\n", "")
-    line = line.replace("\t", "")
+    line = line.replace("\n", "")
     formal.append(line)
 
-informal_file = open("FormalityLists/informal_seeds_100.txt", "r")
 informal = []
+informal_file = open("FormalityLists/informal_list", "r")
 for line in informal_file:
-    line = line.replace("\r\n", "")
-    line = line.replace("\t", "")
+    line = line.replace("\n", "")
     informal.append(line)
 
-text_file = open("FormalityLists/CTRWpairsfull.txt", "r")
-for line in text_file:
-    lines = line.split("/")
-    informal.append(lines[0])
-    formal.append(lines[1])
-
 # # Read GloVe pre trained vectors and make a matrix of it
-# # Used to test the influence of using GloVe vectors
-# # Unzip glove.6B.50.txt before running this code
+# # Only used for testing purposes (glove_measure(sentences))
+# # Unzip glove.6B.50.1.txt before running this code
 # words = pd.read_table("glove.6B/glove.6B.50d.1.txt", sep=" ", index_col=0, header=None, quoting=csv.QUOTE_NONE)
 # words_matrix = words.as_matrix()
 # word_list = words.index
@@ -72,7 +67,10 @@ class ConsoleBotClient(EventBotClient):
         self.question_number = 0
         self.user_formality = 0
         self.question = ""
-        self.filenames = ["formality_results.txt", "glove_results.txt", "alignment_results.txt"]
+        self.filename = "user_results_v3.txt"
+
+        # Only used for testing purposes
+        # self.filenames = ["formality_results.txt", "glove_results.txt", "alignment_results.txt"]
 
     def get_description(self):
         return 'ProgramY AIML2.0 Console Client'
@@ -90,7 +88,7 @@ class ConsoleBotClient(EventBotClient):
         ask = "%s " % self.get_client_configuration().prompt
         return input_func(ask)
 
-    # Displays the startup message which consists of introductory questions to learn more about
+    # Display the startup message which consists of introductory questions to learn more about
     # the language use of a user.
     def display_startup_messages(self, client_context):
         self.process_response(client_context, client_context.bot.get_version_string(client_context))
@@ -113,8 +111,8 @@ class ConsoleBotClient(EventBotClient):
         self._renderer.render(client_context, response)
 
     # All answers between random tag are split by 11039841. The formality measure, GloVe measure and linguistic
-    # alignment measure are all used to find the least aligned response.  If there is just a single possible answer,
-    # it gets directly returned. Also makes sure "@" is replaced with "at" and "<3" with "heart".
+    # alignment measure can all be used to find the least aligned response. If there is just a single possible
+    # answer, it gets directly returned. Also makes sure "@" is replaced with "at" and "<3" with "heart".
     def process_response(self, client_context, response):
         if "11039841" in response:
             if "@" in response:
@@ -129,9 +127,10 @@ class ConsoleBotClient(EventBotClient):
             sentences = response.split("11039841")
             sentences = [x for x in sentences if x]
 
-            self.formality_measure(sentences)
-            # Used to test the influence of using GloVe vectors
+            # Only used for testing purposes
+            # self.formality_measure(sentences)
             # self.glove_measure(sentences)
+
             self.alignment_measure(sentences)
         else:
             if "@" in response:
@@ -145,7 +144,9 @@ class ConsoleBotClient(EventBotClient):
     # Use F-score and formal/informal words lists measure. Reponses are sorted by their difference to the user history.
     # The response with the formality score farthest from that of the user history is returned. The results are written
     # to a results file.
+    # Only used for testing purposes.
     def formality_measure(self, sentences):
+        start_time = time.time()
         responses_formality = {}
         responses_ranking = []
         n_sentences = len(sentences)
@@ -170,12 +171,14 @@ class ConsoleBotClient(EventBotClient):
 
         sorted_formality = [(k,responses_formality[k]) for k in responses_ranking]
         print(sorted_formality[0][0])
-        self.write_results_to_file(self.filenames[0], sorted_formality)
+        self.write_results_to_file_time(self.filenames[0], sorted_formality, start_time)
 
     # Use GloVe measure. GloVe score is increased by one if one of the similar words to the words in the user question
     # is also found in the response. Responses are sorted by their GloVe score. The response with the lowest score is
     # returned. The results are written to a results file.
+    # Only used for testing purposes.
     def glove_measure(self, sentences):
+        start_time = time.time()
         responses_glove = {}
 
         for sentence in sentences:
@@ -187,19 +190,26 @@ class ConsoleBotClient(EventBotClient):
                     for close in closest:
                         if close in sentence:
                             glove += 1
-            responses_glove[sentence] = glove
+            responses_glove[sentence] = glove/len(sentence.split())*100
 
         sorted_glove = sorted(responses_glove.items(), key=operator.itemgetter(1))
         print(sorted_glove[0][0])
-        self.write_results_to_file(self.filenames[1], sorted_glove)
+        self.write_results_to_file_time(self.filenames[1], sorted_glove, start_time)
 
     # Use linguistic alignment measure. Responses are sorted by their alignment score. The response with the
     # lowest score is returned. The results are written to a results file.
     def alignment_measure(self, sentences):
+        # Only used for testing purposes
+        # start_time = time.time()
+
         total_alignment = self.determine_alignment(sentences)
         sorted_alignment = sorted(total_alignment.items(), key=operator.itemgetter(1))
         print(sorted_alignment[0][0])
-        self.write_results_to_file(self.filenames[2], sorted_alignment)
+
+        # Only used for testing purposes
+        # self.write_results_to_file_time(self.filenames[2], sorted_alignment, start_time)
+
+        self.write_results_to_file(sorted_alignment)
 
     # Add question to the user history and determines the formality over the whole user history. If A.L.I.C.E. responds
     # to the user for the first time, it will not repond according to its AIML, but will give fixed response.
@@ -208,14 +218,11 @@ class ConsoleBotClient(EventBotClient):
         self.question = self.get_question(client_context)
 
         # Expand user history
-        # self.user_history = self.user_history + question + ". "
         self.user_history = self.user_history + self.question + ". "
-        # self.user_his_list.append(question)
         self.user_his_list.append(self.question)
 
         # Determine user formality over whole user history
         self.user_formality = self.determine_formality(self.user_history)
-        print(self.user_formality)
 
         # Make sure A.L.I.C.E. doesn't try to respond to the introductory questions
         if self.question_number == 1:
@@ -238,9 +245,14 @@ class ConsoleBotClient(EventBotClient):
             client_context = self.create_client_context(self._configuration.client_configuration.default_userid)
             # self._renderer.render(client_context, client_context.bot.get_exit_response(client_context))
 
-            for filename in self.filenames:
-                with open(filename, "a") as output:
-                    output.write("--------------------------------------------------------------------------------" + "\n")
+            # Only used for testing purposes
+            # for filename in self.filenames:
+            #     with open(filename, "a") as output:
+            #         output.write("--------------------------------------------------------------------------------" + "\n")
+
+            # To anounce the end of the conversation
+            with open(self.filename, "a") as output:
+                output.write("--------------------------------------------------------------------------------" + "\n")
 
             # Changed exit response. Can be further changed to accomodate the specific user
             exit_response = "\nBye!"
@@ -253,6 +265,8 @@ class ConsoleBotClient(EventBotClient):
     def prior_to_run_loop(self):
         client_context = self.create_client_context(self._configuration.client_configuration.default_userid)
         self.display_startup_messages(client_context)
+
+        # Only used for testing purposes
         # for filename in self.filenames:
         #     with open(filename, "w") as output:
         #         output.close()
@@ -308,14 +322,14 @@ class ConsoleBotClient(EventBotClient):
     def f_score(self, NN_freq, JJ_freq, IN_freq, DT_freq, PRP_freq, VB_freq, RB_freq, UH_freq):
         return ((NN_freq + JJ_freq + IN_freq + DT_freq - PRP_freq - VB_freq - RB_freq - UH_freq + 100)/2.0)
 
-    # Make vector for certain word
-    # Used to test the influence of using GloVe vectors
+    # Make vector for certain word.
+    # Only used for testing purposes (GloVe).
     # Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
     def vec(self, word):
         return words.loc[word].as_matrix()
 
     # Retrieve N closest (most similar) words
-    # Used to test the influence of using GloVe vectors
+    # Only used for testing purposes (GloVe).
     # Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
     def find_N_closest_words(self, vector, N, words):
         Nwords = []
@@ -327,8 +341,8 @@ class ConsoleBotClient(EventBotClient):
             words = words.drop(words.iloc[i].name, axis=0)
         return Nwords
 
-    # Determine the total alignment score of the responses of the chatbot to the whole user history. Alignment will be calculated
-    # for each coordination marker and question-response pair. The sum of all alignment scores will be returned for each response.
+    # Determine the total alignment score of the responses of the chatbot to the whole user history. Alignment is calculated
+    # for each coordination marker and question-response pair. The sum of all alignment scores is returned for each response.
     # The code below is obtained from: https://bitbucket.org/sagieske/project_cop/src/master/IAC/iac_v1.1/research_code/qrpairs.py
     # This has been done with permission from Sharon Gieske. The code has been changed to fit the purpose of this Thesis.
     def determine_alignment(self, response_list):
@@ -343,7 +357,7 @@ class ConsoleBotClient(EventBotClient):
             else:
                 features = [mark]
 
-            # Create question-reponse pairs
+            # Create question-response pairs
             pair_dictionary = {}
             for question in self.user_his_list:
                 for response in response_list:
@@ -357,7 +371,7 @@ class ConsoleBotClient(EventBotClient):
             for k, qrpair in pair_dictionary.items():
                 alignment_dict[k] = qrpair.compute_alignment(features, self.user_his_list, smoothing, weight_vector)
 
-            # Append all scores for the same respons
+            # Append all scores for the same response
             for key, score in alignment_dict.items():
                 alignment_scores.setdefault(key, []).append(score)
 
@@ -376,20 +390,28 @@ class ConsoleBotClient(EventBotClient):
         return feature_list
 
     # Write results to file
-    def write_results_to_file(self, filename, ranking):
-        with open(filename, "a") as output:
+    def write_results_to_file(self, ranking):
+        with open(self.filename, "a") as output:
             output.write(str(self.question_number - 1) + "\n")
             output.write(str(self.user_formality) + "\n")
             output.write(str(ranking) + "\n")
             output.write(str(ranking[0][0]) + " => " + str(self.determine_formality(str(ranking[0][0]))) + "\n")
 
-    # Write results for single possible response
+    # Write results to file for single possible response
     def write_results_to_file2(self, response):
-        for filename in self.filenames:
-            with open(filename, "a") as output:
-                output.write(str(self.question_number - 1) + "\n")
-                output.write(str(self.user_formality) + "\n")
-                output.write(str(response) + " => " + str(self.determine_formality(str(response))) + "\n")
+        with open(self.filename, "a") as output:
+            output.write(str(self.question_number - 1) + "\n")
+            output.write(str(self.user_formality) + "\n")
+            output.write(str(response) + " => " + str(self.determine_formality(str(response))) + "\n")
+
+    # Only used for testing purposes
+    def write_results_to_file_time(self, filename, ranking, start_time):
+        with open(filename, "a") as output:
+            output.write(str(self.question_number - 1) + "\n")
+            output.write(str(self.user_formality) + "\n")
+            output.write(str(ranking) + "\n")
+            output.write(str(ranking[0][0]) + " => " + str(self.determine_formality(str(ranking[0][0]))) + "\n")
+            output.write("--- %s seconds ---" % (time.time() - start_time) + "\n")
 
 
 

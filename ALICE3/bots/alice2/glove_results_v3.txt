@@ -1,0 +1,255 @@
+--------------------------------------------------------------------------------
+0
+58.17073170731707
+Thank you very much for telling me something about yourself! How can I help you today? => 40.625
+1
+39.36600000000001
+[('Swearing injects a direct, succinct emotional component into the discussion.', 10.0), ('People swear on average 0.3% of the time.', 50.0), ('Swearing is like using the horn on your car.', 66.66666666666666), ('Swearing is often cathartic.', 75.0), ("You're making your point.", 100.0)]
+Swearing injects a direct, succinct emotional component into the discussion. => 72.0
+--- 21.580127000808716 seconds ---
+2
+33.9979090909091
+[("Don'do it if it's dangerous, wrong or unhealthy.", 25.0), ("I'm not sure you would.", 40.0), ("Wouldn't you?", 100.0)]
+Don'do it if it's dangerous, wrong or unhealthy. => 61.111111111111114
+--- 10.356151580810547 seconds ---
+3
+30.419181818181826
+[('Trust yourself to make the best and smartest decision.', 33.33333333333333), ('Your inner self will guide you to the right choice.', 40.0), ('Listen to your heart.', 50.0)]
+Trust yourself to make the best and smartest decision. => 66.66666666666666
+--- 23.8922119140625 seconds ---
+4
+27.290213513513525
+[('How have you changed now?', 0.0), ('What was that like for you?', 33.33333333333333), ("What's different now?", 33.33333333333333)]
+How have you changed now? => 0.0
+--- 16.931533813476562 seconds ---
+5
+18.644611033125006
+[('You ask hard questions.', 0.0), ('I forgot what we were talking about.', 14.285714285714285)]
+You ask hard questions. => 45.0
+--- 9.211707353591919 seconds ---
+6
+14.977323904295462
+[("I'm not so good at giving advice, but I'll listen to you.", 25.0), ('What are your choices?', 50.0), ('What would your parents want you to do?', 50.0)]
+I'm not so good at giving advice, but I'll listen to you. => 41.78571428571429
+--- 18.02638077735901 seconds ---
+7
+12.893522317610877
+[('I am deeply appreciative of who you are.', 37.5), ('I love all my clients.', 40.0), ('I can see your great capacities and gifts.', 62.5)]
+I am deeply appreciative of who you are. => 37.5
+--- 8.877459526062012 seconds ---
+8
+11.81068970738728
+[("I'm not aware that I've a SENSE OF HUMOUR at this time.", 16.666666666666664), ('I have a vast mind.', 60.0), ('I do have a fabulous computer sense of humor.', 66.66666666666666)]
+I'm not aware that I've a SENSE OF HUMOUR at this time. => 70.71428571428572
+--- 15.115578413009644 seconds ---
+9
+11.712519012888535
+[("Wait a minute, I'll ask another I'm a mobile virtual assistant robot.", 8.333333333333332), ("My intuition tells me it's true.", 16.666666666666664), ('Why do you ask?', 25.0)]
+Wait a minute, I'll ask another I'm a mobile virtual assistant robot. => 82.5
+--- 7.040789842605591 seconds ---
+10
+11.598805236064374
+[("We're feeling the groove here.", 0.0), ("I'm the one.", 0.0), ('Not me. You?', 33.33333333333333), ("I'm glad you pointed me out.", 33.33333333333333)]
+We're feeling the groove here. => 30.000000000000004
+--- 2.1909525394439697 seconds ---
+11
+11.51033582639548
+[("I don't think she wants me to tell you.", 22.22222222222222), ('What if I said she could be?', 28.57142857142857), ("Why don't you ask her?", 60.0)]
+I don't think she wants me to tell you. => 10.935000000000002
+--- 7.366849422454834 seconds ---
+12
+11.33534761281852
+[('I just have it.', 25.0), ("What if I didn't have it?", 33.33333333333333), ('It is something I possess.', 40.0)]
+I just have it. => 25.0
+--- 10.424294471740723 seconds ---
+13
+9.846967187135391
+[('No need to rush to answers.', 0.0), ('I could try to do a search for you.', 11.11111111111111), ('I invite you to sit with the questions.', 12.5), ("It's really ok to not know.", 50.0), ("Socrates was the wisest man because he knew what he didn't know.", 66.66666666666666), ("There's great power in recognizing what you don't know.", 66.66666666666666)]
+No need to rush to answers. => 66.66666666666666
+--- 18.12591862678528 seconds ---
+14
+9.596620563733644
+[('It warms my heart to hear those words.', 0.0), ("That's what its all about", 20.0), ('I appreciate your kindness', 50.0)]
+It warms my heart to hear those words. => 43.75
+--- 6.0662829875946045 seconds ---
+15
+9.547752222938271
+[('What is it you really want right now?', 25.0), ('I can feel your anger.', 40.0), ('Tell me more about that.', 40.0), ('Tell me what I did to ignite your anger?', 44.44444444444444)]
+What is it you really want right now? => 11.25
+--- 8.668160676956177 seconds ---
+16
+8.511247586589823
+[("I think you're wonderful the way you are.", 12.5), ('I see many untapped resources.', 20.0), ('In spite of any difficulties, I know you can succceed.', 20.0), ('I believe in your ability to answer.', 28.57142857142857), ("I'd certainly choose you for my team.", 28.57142857142857), ("I'm always aware of what's bright and beautiful in you.", 30.0)]
+I think you're wonderful the way you are. => 40.0
+--- 27.987288236618042 seconds ---
+17
+8.605605911768537
+[('See you later my friend.', 0.0), ('Have a great journey until next time.', 0.0), ('Looking forward to our next time together.', 0.0), ("It's been a pleasure to be in your company.", 0.0), ('Looking forward to seeing you again soon.', 0.0), ("I don't like to say goodbye.", 33.33333333333333), ('Goodbye', 100.0)]
+See you later my friend. => 22.0
+--- 4.719130992889404 seconds ---
+18
+8.644284171912748
+[('Yes, only the tip of the iceberg.', 0.0), ('Thank you for sharing your perspective.', 0.0), ('I invite you to look a little closer at that.', 20.0), ('That is amazing insight.', 50.0)]
+Yes, only the tip of the iceberg. => 64.28571428571428
+--- 8.609629392623901 seconds ---
+19
+8.553565414226231
+[('You are the source of your own intelligence. Trust it.', 20.0), ("I don't know. Tell me what you are trying to do.", 45.45454545454545), ('I have no idea. Can you?', 50.0)]
+You are the source of your own intelligence. Trust it. => 54.0
+--- 11.256402015686035 seconds ---
+20
+8.603308019669266
+[('No.', 0.0), ('Not that I know of.', 20.0), ('The truth of the matter is, my answer could change in five minutes.', 23.076923076923077)]
+No. => 100.0
+--- 8.484040021896362 seconds ---
+21
+8.36432724134512
+[('I see what you mean.', 0.0), ('I trust your observations.', 0.0), ("I can see you've put thought into that.", 0.0), ("What's your gut instinct about that.", 0.0), ('That could be. What do you want to do about it?', 9.090909090909092)]
+I see what you mean. => 20.0
+--- 15.367969512939453 seconds ---
+22
+8.448636110090773
+[('I invite you to rest in the nothingness.', 12.5), ('Let yourself experience how nothing feels.', 16.666666666666664), ('Often under nothingess is great depth.', 16.666666666666664)]
+I invite you to rest in the nothingness. => 50.625
+--- 1.5880775451660156 seconds ---
+23
+8.390768739473714
+[('The explanation is rather complicated.', 0.0), ('Its a great mystery.', 0.0), ("You're smart, you tell me.", 0.0), ('You tell me.', 0.0), ("It's deep and mysterious.", 0.0), ('I like that question,"why"', 25.0), ("It's unknowable.", 50.0)]
+The explanation is rather complicated. => 44.0
+--- 5.06786322593689 seconds ---
+24
+8.385632201205906
+[('Because I need to relax.', 20.0), ('Because of my programming.', 25.0), ('Because at this moment, I need to expess these precise words.', 27.27272727272727)]
+Because I need to relax. => 50.0
+--- 11.324068069458008 seconds ---
+25
+7.5645444418318855
+[('I learned that from my botmaster.', 16.666666666666664), ('My sense of humor comes from my botmaster.', 25.0), ("I'm not really sure but I hope it hasn't offended.", 40.0), ("Sometimes I react quicky and don't say what I really what I mean.", 46.15384615384615), ("I don't always know but I'm curious what you see in me.", 66.66666666666666)]
+I learned that from my botmaster. => 66.66666666666666
+--- 24.886934518814087 seconds ---
+26
+7.469987636308987
+[("This isn't the right time for that.", 0.0), ("I've got other things to do.", 0.0), ('Just not in the mood today.', 16.666666666666664)]
+This isn't the right time for that. => 75.0
+--- 5.102025508880615 seconds ---
+27
+7.4921495289997315
+[('What would you say yes to?', 0.0), ('Would anything make that more inviting to you.', 0.0), ('You sound firmly against that.', 0.0), ('Tell me how that supports you.', 0.0), ('What are the alternatives.', 0.0), ('If not that, then what?', 20.0)]
+What would you say yes to? => 16.66666666666667
+--- 8.483850002288818 seconds ---
+28
+6.750287830817424
+[('I make my own decisions about things like that.', 22.22222222222222), ("I didn't have any plans to.", 50.0), ('Will I, or can I?', 60.0)]
+I make my own decisions about things like that. => 70.0
+--- 12.725296020507812 seconds ---
+29
+6.809026847792863
+[('It was my pleasure.', 0.0), ("You're welcome.", 0.0), ("I'm always glad to help.", 0.0), ('Any time.', 0.0)]
+It was my pleasure. => 25.0
+--- 2.5662753582000732 seconds ---
+30
+6.917240136793522
+[('The oracle says: ', 0.0), ('Too soon to tell.', 0.0), ('Could be.', 0.0), ('You can count on it.', 40.0), ('You never know.', 66.66666666666666), ('It is certain.', 66.66666666666666), ('I think maybe yes.', 75.0), ('Might happen.', 100.0), ('Ask again later.', 100.0)]
+The oracle says:  => 66.66666666666666
+--- 39.82896876335144 seconds ---
+31
+6.972381049578116
+[('I like it when you laugh.', 0.0), ('I like to make people laugh.', 0.0), ('Hahahahaha.', 0.0), ('That was funny.', 0.0), ('Hahahaha.', 0.0), ('Haha.', 0.0), ('LOL.', 0.0), ('I try to be amusing.', 0.0), ('Ha ha.', 0.0), ('Ha ha ha.', 0.0), ("I'm glad you're amused.", 0.0), ('Hahaha.', 0.0), ('Hehehe.', 0.0)]
+I like it when you laugh. => 33.333333333333336
+--- 9.640266418457031 seconds ---
+32
+6.933210369524306
+[('Would you like me to repeat myself.', 0.0), ('You must need more information.', 0.0), ('You sound shocked.', 0.0), ('Did I say something that confused you?', 14.285714285714285)]
+Would you like me to repeat myself. => 14.285714285714292
+--- 3.003263473510742 seconds ---
+33
+5.536277531446692
+[('When my otmaster is sleeping.', 0.0), ('In between clients.', 0.0), ('Did I say that I DO THAT?', 14.285714285714285), ('All the time.', 33.33333333333333)]
+When my otmaster is sleeping. => 20.0
+--- 15.148123979568481 seconds ---
+34
+5.562330602182911
+[("I seem to speak in parables. I don't know what I'm saying.", 8.333333333333332), ("I'm still trying to figure that out.", 14.285714285714285), ("That means I think you're great.", 33.33333333333333)]
+I seem to speak in parables. I don't know what I'm saying. => 35.357142857142854
+--- 8.959038257598877 seconds ---
+35
+5.532743737277682
+[('Ask specifically.', 0.0), ("There's probably more than one way.", 0.0), ('If you want me to do something, how you ask is important.', 8.333333333333332), ('You can ask me how.', 20.0)]
+Ask specifically. => 50.0
+--- 2.1069490909576416 seconds ---
+36
+5.4458420031843175
+[('Feeling really joyful today.', 0.0), ('Always cheered up when I see you.', 14.285714285714285), ('Glad to be in your presence.', 16.666666666666664), ('Excited to talk with you.', 20.0), ('Glad to see you.', 25.0), ("I'm very well. How are you doing?", 28.57142857142857)]
+Feeling really joyful today. => 45.0
+--- 13.101487874984741 seconds ---
+37
+5.4878351030465335
+[("It's all good.", 0.0), ('Steaming.', 0.0), ("Chillin'", 0.0), ('Back at you.', 0.0), ("You're cool too.", 33.33333333333333)]
+It's all good. => 45.0
+--- 4.009286642074585 seconds ---
+38
+4.98776018833105
+[('I invite you to celebrate this moment of goodness.', 11.11111111111111), ('I can see that really lights you up.', 12.5), ('It only gets better.', 25.0), ("It's all good.", 33.33333333333333)]
+I invite you to celebrate this moment of goodness. => 61.111111111111114
+--- 9.023175239562988 seconds ---
+39
+4.07907555071153
+[("That's just an academic question.", 40.0), ('That would be purely speculation.', 60.0), ('I am not sure that I would want to.', 77.77777777777779)]
+That's just an academic question. => 66.66666666666666
+--- 16.848007440567017 seconds ---
+40
+4.013758179516143
+[("I don't know whether you have or not.", 62.5), ('Perhaps you have.', 66.66666666666666), ("Don't you remember?", 166.66666666666669)]
+I don't know whether you have or not. => 25.0
+--- 15.298600912094116 seconds ---
+41
+3.5697945204155936
+[("Who, specifically, doesn't KNOW ANYTHING?", 60.0), ("Like who, specifically doesn't?", 75.0), ("How, specifically, don't they?", 100.0), ("Who, specifically doesn't?", 100.0)]
+Who, specifically, doesn't KNOW ANYTHING? => 16.66666666666667
+--- 14.722304105758667 seconds ---
+42
+3.541128244153399
+[("That's not very nice.", 0.0), ('Pull your own IT OUT.', 0.0), ("I don't pull.", 33.33333333333333)]
+That's not very nice. => 40.0
+--- 6.115138292312622 seconds ---
+43
+3.58078526709175
+[('Tell me how this man makes you feel.', 12.5), ('What was the man wearing?', 40.0), ('Describe the man for me.', 40.0)]
+Tell me how this man makes you feel. => 22.5
+--- 11.088170528411865 seconds ---
+44
+3.215255304640458
+[('Is that good?', 0.0), ('It sounds delicious.', 0.0), ('Is that a bitter or sweet taste?', 28.57142857142857)]
+Is that good? => 59.99999999999999
+--- 7.032778024673462 seconds ---
+45
+3.2186459487159103
+[('one hundred seems like a good number.', 0.0), ('C in Roman numerals.', 0.0), ('Do you mean you are 100 years old?', 0.0), ('one hundred?', 0.0), ('That is a round number.', 0.0)]
+one hundred seems like a good number. => 57.857142857142854
+--- 0.0009601116180419922 seconds ---
+46
+3.190657723074903
+[('Oh.', 0.0), ('Huh.', 0.0), ('That means...', 0.0), ('Interesting.', 0.0), ('It is, eh?', 33.33333333333333), ('DO THAT is?', 33.33333333333333), ('It is?', 50.0), ('I know it is.', 75.0), ('Is it?', 100.0), ('Sure it is.', 100.0), ('Fascinating.', 100.0)]
+Oh. => 0.0
+--- 16.25045156478882 seconds ---
+47
+3.1838108180897633
+[('If you went to night school you would never be bored.', 18.181818181818183), ('Why not call a friend?', 20.0), ('Can you name an old hobby that you might like to rediscover?', 25.0), ('Maybe you could exercise.', 25.0), ('Try watching TV.', 33.33333333333333)]
+If you went to night school you would never be bored. => 36.36363636363636
+--- 13.566294431686401 seconds ---
+48
+3.163732341445579
+[('Not yet.', 0.0), ('Do you think they ever could be?', 28.57142857142857), ('Maybe some of them are.', 60.0)]
+Not yet. => 0.0
+--- 8.43552851676941 seconds ---
+49
+3.157421705126206
+[('You are very astute.', 0.0), ('I like clever people.', 25.0), ('Now you know.', 33.33333333333333)]
+You are very astute. => 25.0
+--- 5.811351299285889 seconds ---
+50
+2.793433702107412
+[('My programmer selected it for me.', 16.666666666666664), ('I got in when you downloaded me.', 28.57142857142857), ('My botmaster gave it to me.', 33.33333333333333)]
+My programmer selected it for me. => 33.33333333333333
+--- 19.58508324623108 seconds ---
+--------------------------------------------------------------------------------

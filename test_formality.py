@@ -54,26 +54,51 @@ import time
 
 start_time = time.time()
 
-# Create formal and informal word lists
-formal_file = open("FormalityLists/formal_seeds_100.txt", "r")
+# Used to create formal and informal word lists
+# formal_file = open("FormalityLists/formal_seeds_100.txt", "r")
+# formal = []
+# for line in formal_file:
+#     line = line.replace("\r\n", "")
+#     line = line.replace("\t", "")
+#     formal.append(line)
+#
+# informal_file = open("FormalityLists/informal_seeds_100.txt", "r")
+# informal = []
+# for line in informal_file:
+#     line = line.replace("\r\n", "")
+#     line = line.replace("\t", "")
+#     informal.append(line)
+#
+# text_file = open("FormalityLists/CTRWpairsfull.txt", "r")
+# informal.append("\n")
+# formal.append("\n")
+# for line in text_file:
+#     lines = line.split("/")
+#     informal.append(lines[0] + "\n")
+#     formal.append(lines[1])
+#
+# with open("FormalityLists/formal_list.txt","w") as output:
+#     for line in formal:
+#         output.write(line)
+#
+# with open("FormalityLists/informal_list.txt","w") as output:
+#     for line in informal:
+#         output.write(line)
+
+# Open formal and informal word lists
+formal = []
+formal_file = open("FormalityLists/formal_list", "r")
 formal = []
 for line in formal_file:
-    line = line.replace("\r\n", "")
-    line = line.replace("\t", "")
+    line = line.replace("\n", "")
     formal.append(line)
 
-informal_file = open("FormalityLists/informal_seeds_100.txt", "r")
+informal = []
+informal_file = open("FormalityLists/informal_list", "r")
 informal = []
 for line in informal_file:
-    line = line.replace("\r\n", "")
-    line = line.replace("\t", "")
+    line = line.replace("\n", "")
     informal.append(line)
-
-text_file = open("FormalityLists/CTRWpairsfull.txt", "r")
-for line in text_file:
-    lines = line.split("/")
-    informal.append(lines[0])
-    formal.append(lines[1])
 
 # Open test file of annotated formality scores
 test = pd.read_csv("fii_annotations/mturk_experiment_2.csv", sep=',', encoding = "ISO-8859-1")
@@ -109,8 +134,6 @@ def determine_formality(sentence):
             IN_count += 1
         elif tag[1] == "DT":
             DT_count += 1
-        elif tag[1] == "PRP" or tag[1] == "PRP$" or tag[1] == "WP" or tag[1] == "WP$":
-            PRP_count += 1
         elif tag[1] == "VB" or tag[1] == "VBD" or tag[1] == "VBG" or tag[1] == "VBN" or tag[1] == "VBP" or tag[1] == "VBZ":
             VB_count += 1
         elif tag[1] == "RB" or tag[1] == "RBR" or tag[1] == "RBS" or tag[1] == "WRB":
@@ -163,7 +186,7 @@ def test_formality_score():
     test["Formality_score"] = formality_score
     return mean_squared_error(test_formality, formality_score), mean_absolute_error(test_formality, formality_score)
 
-print(test_formality_score())
+# print(test_formality_score())
 print("--- %s seconds ---" % (time.time() - mid_time))
 
 # Test sentences with comment formality score from mechanical turk if used from mturk_experiment_2.

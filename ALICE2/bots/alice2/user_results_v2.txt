@@ -1,4 +1,4 @@
-0
+1
 0.0
-People swear on average 0.3% of the time. => 83.33333333333333
+Swearing is like using the horn on your car. => 66.66666666666666
 --------------------------------------------------------------------------------

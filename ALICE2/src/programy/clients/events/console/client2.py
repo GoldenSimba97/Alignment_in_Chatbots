@@ -22,26 +22,18 @@ from programy.utils.logging.ylogger import YLogger
 from programy.clients.events.client import EventBotClient
 from programy.clients.events.console.config import ConsoleConfiguration
 
-# Create formal and informal word lists
-formal_file = open("FormalityLists/formal_seeds_100.txt", "r")
+# Open formal and informal word lists
 formal = []
+formal_file = open("FormalityLists/formal_list", "r")
 for line in formal_file:
-    line = line.replace("\r\n", "")
-    line = line.replace("\t", "")
+    line = line.replace("\n", "")
     formal.append(line)
 
-informal_file = open("FormalityLists/informal_seeds_100.txt", "r")
 informal = []
+informal_file = open("FormalityLists/informal_list", "r")
 for line in informal_file:
-    line = line.replace("\r\n", "")
-    line = line.replace("\t", "")
+    line = line.replace("\n", "")
     informal.append(line)
-
-text_file = open("FormalityLists/CTRWpairsfull.txt", "r")
-for line in text_file:
-    lines = line.split("/")
-    informal.append(lines[0])
-    formal.append(lines[1])
 
 class ConsoleBotClient(EventBotClient):
 
@@ -53,6 +45,7 @@ class ConsoleBotClient(EventBotClient):
         self.user_history = ""
         self.question_number = 0
         self.user_formality = 0
+        self.filename = "user_results_v2.txt"
 
     def get_description(self):
         return 'ProgramY AIML2.0 Console Client'
@@ -112,7 +105,8 @@ class ConsoleBotClient(EventBotClient):
             client_context = self.create_client_context(self._configuration.client_configuration.default_userid)
             # self._renderer.render(client_context, client_context.bot.get_exit_response(client_context))
 
-            with open("results_v2.txt", "a") as output:
+            # To anounce the end of the conversation
+            with open(self.filename, "a") as output:
                 output.write("--------------------------------------------------------------------------------" + "\n")
 
             # Changed exit response. Can be further changed to accomodate the specific user
@@ -125,8 +119,6 @@ class ConsoleBotClient(EventBotClient):
     def prior_to_run_loop(self):
         client_context = self.create_client_context(self._configuration.client_configuration.default_userid)
         self.display_startup_messages(client_context)
-        # with open("results_v2.txt", "w") as output:
-        #     output.close()
 
     # Determine the total formality score of the input by computing the frequency of nouns, adjectives, prepositions
     # articles, pronouns, verbs, adverbs and interjections. If a word of the input exists in the formal words list
@@ -143,7 +135,7 @@ class ConsoleBotClient(EventBotClient):
         NN_count = JJ_count = IN_count = DT_count = PRP_count = VB_count = RB_count = UH_count = 0
         formality = 1
 
-        # Get the counts needed to determine frequenciess for calculation of F-score
+        # Get the counts needed to determine frequencies for calculation of F-score
         # If punctuation is encountered, decrease the length of the sentence by 1
         for tag in tagged:
             if tag[1] == "NN" or tag[1] == "NNS" or tag[1] == "NNP" or tag[1] == "NNS":
@@ -181,7 +173,7 @@ class ConsoleBotClient(EventBotClient):
 
     # Write results to file
     def write_results_to_file2(self, response):
-        with open("results_v2.txt", "a") as output:
+        with open(self.filename, "a") as output:
             output.write(str(self.question_number) + "\n")
             output.write(str(self.user_formality) + "\n")
             output.write(str(response) + " => " + str(self.determine_formality(str(response))) + "\n")
