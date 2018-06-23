@@ -15,6 +15,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import sys
+
 from programy.utils.logging.ylogger import YLogger
 
 from programy.utils.text.text import TextUtils
@@ -26,6 +28,7 @@ class PatternNode(object):
 
     THAT = "__THAT__"
     TOPIC = "__TOPIC__"
+    sys.setrecursionlimit(1500)
 
     def __init__(self):
 

@@ -22,19 +22,26 @@ class QRPair:
     # Compute alignment score of a question-response pair. The baseline of the user history is determined to ensure
     # that preferences for certain markers do not influence the result. If the question is empty, if none of the
     # features is found in text or if the feature count divided by the length is zero, there is no alignment.
-    # The actual alignment between question and response can be calculted using four different alternatives.
-	def compute_alignment(self, features, questions_list, smoothing, weight_vector):
+    # The actual alignment between question and response can be calculated by subtracting the conditional probability
+    # by the prior probability.
+	def compute_alignment(self, features, history, questions_list, smoothing, weight_vector):
         # Determine baseline of user history
 		base_prob = get_baseline(features, questions_list)
 		other_base_prob = other_baseline(features, questions_list)
 		conditional_prob = self.response_prob(features)
 
+		# Used for testing purposes only
+		# conditional_prob = self.response_prob_binary(features)
+
 		value_vector = np.array([other_base_prob, base_prob])
 		scalarized = np.dot(weight_vector, value_vector)
 
-        # Get needed information from question and response
+        # Get needed information from question, response and user history
+		response_text = getWords(self.response)
+		self.response_length = len(response_text)
 		question_text = getWords(self.question)
 		self.question_length = len(question_text)
+		history_text = getWords(history)
 
 		# If question is empty there is no alignment
 		if len(question_text) == 0:
@@ -42,7 +49,7 @@ class QRPair:
 			return self.alignment
 
         # If none of the features is found in the text there is no alignment
-		q_count = feature_count(question_text, features)
+		q_count = feature_count(history_text, features)
 		if q_count == 0 and features[0] != "number_posts":
 			self.alignment = 0
 			return self.alignment
@@ -57,8 +64,18 @@ class QRPair:
 		self.alignment = conditional_prob - scalarized
 		return self.alignment
 
-    # See if the features appear in the utterance at all (binary)
+    # Calculate the frequency of features that occur in the response text
 	def response_prob(self, features):
+		total_markers = 0.0
+		response_text = getWords(self.response)
+		for feature in features:
+			if feature in response_text:
+				total_markers += 1
+		return total_markers/len(response_text)
+
+    # See if the features appear in the utterance at all (binary)
+    # Used for testing purposes only.
+	def response_prob_binary(self, features):
 		response_text = getWords(self.response)
 		total_markers = False
 		for feature in features:

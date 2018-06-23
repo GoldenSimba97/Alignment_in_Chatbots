@@ -20,7 +20,9 @@ from heapq import nsmallest
 import pandas as pd
 import numpy as np
 import operator
-import time
+
+# Only used for testing purposes
+# import time
 
 # Only used for testing purposes (GloVe)
 # import csv
@@ -109,9 +111,8 @@ class ConsoleBotClient(EventBotClient):
         self._renderer.render(client_context, response)
 
     # All answers between random tag are split by 11039841. The formality measure, GloVe measure and linguistic
-    # alignment measure can all be used to find the best aligned response. If there is just a single possible
-    # answer, it gets directly returned. The response also has a small delay based on the length of the response
-    # to make the chatbot more naturalistic. Also makes sure "@" is replaced with "at" and "<3" with "heart".
+    # alignment measure can all be used to find the least aligned response. If there is just a single possible
+    # answer, it gets directly returned. Also makes sure "@" is replaced with "at" and "<3" with "heart".
     def process_response(self, client_context, response):
         if "11039841" in response:
             if "@" in response:
@@ -122,59 +123,30 @@ class ConsoleBotClient(EventBotClient):
             responses_glove = {}
             responses_ranking = []
 
-            # Check if there was text before the random tag
-            extra = self.before(response, "11039841")
-            response = response.replace(extra, "")
-
             # Split by 11039841 and remove empty items from list
             sentences = response.split("11039841")
             sentences = [x for x in sentences if x]
 
-            print("...", end="\r")
-            if extra == "":
-                # Only used for testing purposes
-                # response = self.glove_measure(sentences)
-                # response = self.alignment_measure(sentences)
+            # Only used for testing purposes
+            # self.formality_measure(sentences)
+            # self.glove_measure(sentences)
 
-                response = self.formality_measure(sentences)
-                self.delay_alignment(response)
-                print(response)
-            else:
-                # Only used for testing purposes
-                # response = extra + self.glove_measure(sentences)
-                # response = extra + self.alignment_measure(sentences)
-
-                response = extra + self.formality_measure(sentences)
-                self.delay_alignment(response)
-                print(response)
+            self.alignment_measure(sentences)
         else:
             if "@" in response:
                 response = response.replace("@", " at ")
             if "<3" in response:
                 response = response.replace("<3", " heart")
+            print(response)
             if self.question_number > 0 and response != "\nBye!":
                 self.write_results_to_file2(response)
-                print("...", end="\r")
-                if self.question_number == 1:
-                    time.sleep(1)
-                else:
-                    self.delay(response)
-            print(response)
-
-    # Find first part and return slice before it.
-    def before(self, value, a):
-        pos_a = value.find(a)
-        if pos_a == -1:
-            return ""
-        return value[0:pos_a]
 
     # Use F-score and formal/informal words lists measure. Reponses are sorted by their difference to the user history.
-    # The response with the formality score closest to that of the user history is returned. The results are written
+    # The response with the formality score farthest from that of the user history is returned. The results are written
     # to a results file.
+    # Only used for testing purposes.
     def formality_measure(self, sentences):
-        # Only used for testing purposes
-        # start_time = time.time()
-
+        start_time = time.time()
         responses_formality = {}
         responses_ranking = []
         n_sentences = len(sentences)
@@ -183,34 +155,26 @@ class ConsoleBotClient(EventBotClient):
             responses_formality[sentence] = self.determine_formality(sentence)
 
         # Print formality score for each response
-        # Only used for testing purposes
-        # for key, val in responses_formality.items():
-        #      print(val, "=>", key)
+        for key, val in responses_formality.items():
+             print(val, "=>", key)
 
         # Sort responses by formality level
         temp_dict = responses_formality.copy()
         for i in range(0,n_sentences):
-            try:
-                min_val = min(temp_dict.values(), key=lambda x:abs(x-self.user_formality))
-                for key, val in responses_formality.items():
-                    if val == min_val:
-                        if key in temp_dict.keys():
-                            responses_ranking.append(key)
-                            temp_dict.pop(key)
-                            break
-            except:
-                pass
+            max_val = max(temp_dict.values(), key=lambda x:abs(x-self.user_formality))
+            for key, val in responses_formality.items():
+                if val == max_val:
+                    if key in temp_dict.keys():
+                        responses_ranking.append(key)
+                        temp_dict.pop(key)
+                        break
 
         sorted_formality = [(k,responses_formality[k]) for k in responses_ranking]
-        self.write_results_to_file(sorted_formality)
-
-        # Only used for testing purposes
-        # self.write_results_to_file_time(self.filenames[0], sorted_formality, start_time)
-
-        return sorted_formality[0][0]
+        print(sorted_formality[0][0])
+        self.write_results_to_file_time(self.filenames[0], sorted_formality, start_time)
 
     # Use GloVe measure. GloVe score is increased by one if one of the similar words to the words in the user question
-    # is also found in the response. Responses are sorted by their GloVe score. The response with the highest score is
+    # is also found in the response. Responses are sorted by their GloVe score. The response with the lowest score is
     # returned. The results are written to a results file.
     # Only used for testing purposes.
     def glove_measure(self, sentences):
@@ -228,58 +192,45 @@ class ConsoleBotClient(EventBotClient):
                             glove += 1
             responses_glove[sentence] = glove/len(sentence.split())*100
 
-        ssorted_glove = sorted(responses_glove.items(), key=operator.itemgetter(1), reverse=True)
+        sorted_glove = sorted(responses_glove.items(), key=operator.itemgetter(1))
+        print(sorted_glove[0][0])
         self.write_results_to_file_time(self.filenames[1], sorted_glove, start_time)
-        return sorted_glove[0][0]
 
     # Use linguistic alignment measure. Responses are sorted by their alignment score. The response with the
-    # highest score is returned. The results are written to a results file.
-    # Only used for testing purposes.
+    # lowest score is returned. The results are written to a results file.
     def alignment_measure(self, sentences):
-        start_time = time.time()
+        # Only used for testing purposes
+        # start_time = time.time()
+
         total_alignment = self.determine_alignment(sentences)
-        sorted_alignment = sorted(total_alignment.items(), key=operator.itemgetter(1), reverse=True)
-        self.write_results_to_file_time(self.filenames[2], sorted_alignment, start_time)
-        return sorted_alignment[0][0]
+        sorted_alignment = sorted(total_alignment.items(), key=operator.itemgetter(1))
+        print(sorted_alignment[0][0])
 
-    # Delay for responses to make them more naturalistic.
-    def delay(self, response):
-        s_len = len(response.split())
-        for x in range (0, s_len):
-            time.sleep(0.25)
+        # Only used for testing purposes
+        # self.write_results_to_file_time(self.filenames[2], sorted_alignment, start_time)
 
-    # Delay for responses with alignment to make them more naturalistic.
-    def delay_alignment(self, response):
-        s_len = len(response.split())
-        for x in range (0, s_len):
-            time.sleep(0.2)
+        self.write_results_to_file(sorted_alignment)
 
-    # Add question to the user history and determine the formality over the whole user history. If A.L.I.C.E. responds
-    # to the user for the first time, it will not repond according to its AIML, but will give a fixed response. Also
-    # makes sure the chatbot can handle it if the user presses enter without typing anything.
+    # Add question to the user history and determines the formality over the whole user history. If A.L.I.C.E. responds
+    # to the user for the first time, it will not repond according to its AIML, but will give fixed response.
     def process_question_answer(self, client_context):
         # question = self.get_question(client_context)
         self.question = self.get_question(client_context)
-        if self.question == "no u" or self.question == "no u " or self.question == "no u." or self.question == "No u" or self.question == "No u " or self.question == "No u.":
-            self.question = self.question.replace(self.question, "no you")
-        if self.question != "":
 
-            # Expand user history
-            self.user_history = self.user_history + self.question + ". "
-            self.user_his_list.append(self.question)
+        # Expand user history
+        self.user_history = self.user_history + self.question + ". "
+        self.user_his_list.append(self.question)
 
-            # Determine user formality over whole user history
-            self.user_formality = self.determine_formality(self.user_history)
+        # Determine user formality over whole user history
+        self.user_formality = self.determine_formality(self.user_history)
 
-            # Make sure A.L.I.C.E. doesn't try to respond to the introductory questions
-            if self.question_number == 1:
-                response = "Thank you very much for telling me something about yourself! How can I help you today?"
-            else:
-                # response = self.process_question(client_context, question)
-                response = self.process_question(client_context, self.question)
-            self.render_response(client_context, response)
+        # Make sure A.L.I.C.E. doesn't try to respond to the introductory questions
+        if self.question_number == 1:
+            response = "Thank you very much for telling me something about yourself! How can I help you today?"
         else:
-            self.question_number -= 1
+            # response = self.process_question(client_context, question)
+            response = self.process_question(client_context, self.question)
+        self.render_response(client_context, response)
 
     # Keep track of the number of questions a user asks. This is useful for making sure A.L.I.C.E. does not respond to the
     # introductory questions and for evaluating the conversation length.
@@ -369,7 +320,7 @@ class ConsoleBotClient(EventBotClient):
 
     # Calculate the F-score
     def f_score(self, NN_freq, JJ_freq, IN_freq, DT_freq, PRP_freq, VB_freq, RB_freq, UH_freq):
-        return ((NN_freq + JJ_freq + IN_freq + DT_freq - PRP_freq - VB_freq - RB_freq - UH_freq + 100)/2)
+        return ((NN_freq + JJ_freq + IN_freq + DT_freq - PRP_freq - VB_freq - RB_freq - UH_freq + 100)/2.0)
 
     # Make vector for certain word.
     # Only used for testing purposes (GloVe).
@@ -377,7 +328,7 @@ class ConsoleBotClient(EventBotClient):
     def vec(self, word):
         return words.loc[word].as_matrix()
 
-    # Retrieve N closest (most similar) words.
+    # Retrieve N closest (most similar) words
     # Only used for testing purposes (GloVe).
     # Code obtained from: http://ai.intelligentonlinetools.com/ml/convert-word-to-vector-glove-python/
     def find_N_closest_words(self, vector, N, words):
@@ -406,27 +357,21 @@ class ConsoleBotClient(EventBotClient):
             else:
                 features = [mark]
 
-            # Create question-reponse pairs
+            # Create question-response pairs
             pair_dictionary = {}
-            for response in response_list:
-                qr_list = []
-                for question in self.user_his_list:
+            for question in self.user_his_list:
+                for response in response_list:
                     qrpair = QRPair()
                     qrpair.add_question(question)
                     qrpair.add_response(response)
-                    qr_list.append(qrpair)
-                pair_dictionary[response] = qr_list
+                    pair_dictionary[response] = qrpair
 
             alignment_dict = {}
     		# Loop through all qrpairs again to compute alignment
-            for k, qr_list in pair_dictionary.items():
-                alignment_list = []
-                for qrpair in qr_list:
-    				# some qrpairs do not have the author dict and response dict
-                    alignment_list.append(qrpair.compute_alignment(features, self.user_history, self.user_his_list, smoothing, weight_vector))
-                alignment_dict[k] = sum(alignment_list)
+            for k, qrpair in pair_dictionary.items():
+                alignment_dict[k] = qrpair.compute_alignment(features, self.user_his_list, smoothing, weight_vector)
 
-            # Append all scores for the same respons
+            # Append all scores for the same response
             for key, score in alignment_dict.items():
                 alignment_scores.setdefault(key, []).append(score)
 
@@ -449,7 +394,6 @@ class ConsoleBotClient(EventBotClient):
         with open(self.filename, "a") as output:
             output.write(str(self.question_number - 1) + "\n")
             output.write(str(self.user_formality) + "\n")
-            output.write(str(self.question) + "\n")
             output.write(str(ranking) + "\n")
             output.write(str(ranking[0][0]) + " => " + str(self.determine_formality(str(ranking[0][0]))) + "\n")
 
@@ -458,7 +402,6 @@ class ConsoleBotClient(EventBotClient):
         with open(self.filename, "a") as output:
             output.write(str(self.question_number - 1) + "\n")
             output.write(str(self.user_formality) + "\n")
-            output.write(str(self.question) + "\n")
             output.write(str(response) + " => " + str(self.determine_formality(str(response))) + "\n")
 
     # Only used for testing purposes

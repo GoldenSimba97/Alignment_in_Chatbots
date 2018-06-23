@@ -89,7 +89,7 @@ class Brain(object):
     @property
     def bot(self):
         return self._bot
-    
+
     @property
     def configuration(self):
         return self._configuration
@@ -447,15 +447,17 @@ class Brain(object):
         return response, None
 
     def process_oob(self, client_context, oob_command):
+        try:
+             oob_content = ET.fromstring(oob_command)
 
-        oob_content = ET.fromstring(oob_command)
-
-        if oob_content.tag == 'oob':
-            for child in oob_content.findall('./'):
-                if child.tag in self._oob:
-                    oob_class = self._oob[child.tag]
-                    return oob_class.process_out_of_bounds(client_context, child)
-                return self._default_oob.process_out_of_bounds(client_context, child)
+             if oob_content.tag == 'oob':
+                 for child in oob_content.findall('./'):
+                     if child.tag in self._oob:
+                         oob_class = self._oob[child.tag]
+                         return oob_class.process_out_of_bounds(client_context, child)
+                     return self._default_oob.process_out_of_bounds(client_context, child)
+        except:
+            pass
 
         return ""
 
@@ -525,4 +527,3 @@ class Brain(object):
             return self.resolve_matched_template(client_context, match_context)
 
         return None
-

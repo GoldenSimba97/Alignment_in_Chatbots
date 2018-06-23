@@ -1,0 +1,1384 @@
+--------------------------------------------------------------------------------
+1
+59.090909090909086
+Hi Alice, could you help me with translating some Chinese sentences?
+Hi it's great to see you! Where are you located? => 20.454545454545453
+2
+63.33333333333333
+I am in Amsterdam
+I live in the joyous present moment. => 77.14285714285714
+3
+61.76470588235294
+Thats nice.
+Thank you for sharing your perspective. => 50.0
+4
+60.0
+Can you help me with some Chinese sentences
+What's your favorite movie? => 40.0
+5
+61.29032258064516
+My favorite movie is pulp fiction
+What did you like best about it? => 42.85714285714286
+6
+67.56756756756756
+The way of filming, long scenes
+Thanks for the info. => 100.0
+7
+69.23076923076923
+No problem
+Hmmmm. PROBLEM is an enity. => 80.0
+8
+69.56521739130434
+What is the capital of North korea?
+Pyongyang. => 100.0
+9
+68.62745098039215
+Who is the supreme leader?
+Sorry, I don't have an answer for that! => 59.99999999999999
+10
+69.4915254237288
+Who is the supreme leader of North Korea?
+Sorry, I don't have an answer for that! => 59.99999999999999
+11
+66.12903225806451
+Who are you?
+I'm called. => 33.333333333333336
+12
+65.07936507936508
+Why?
+The explanation is rather complicated. => 44.0
+13
+63.19444444444445
+Translate "I am a cat" to Dutch
+Sorry, I don't have an answer for that! => 59.99999999999999
+14
+65.2439024390244
+What is the best restaurant for Chinese food in Amsterdam
+Sorry, I don't have an answer for that! => 59.99999999999999
+15
+57.03488372093023
+How old are you?
+I'm 5 years old. => 63.0
+16
+55.5
+Where are you from?
+My birthplace is Portland, Maine. => 40.0
+17
+47.25000000000001
+How did you learn to talk?
+Sorry, I don't have an answer for that! => 59.99999999999999
+18
+46.575
+What is log(60)
+I lost my train of thought. => 66.66666666666666
+19
+45.9
+What is 60 + 70
+Sorry, I don't have an answer for that! => 59.99999999999999
+20
+44.51351351351351
+What can you help me with?
+I enjoy just listening to your questions. => 50.0
+21
+44.83928571428572
+Thanks
+Any time. => 100.0
+--------------------------------------------------------------------------------
+1
+22.5
+tell me your name.
+Call me. => 0.0
+2
+25.714285714285715
+call you what?
+You have multiple contacts named YOU WHAT: <displayname><multipleids>YOU</displayname>, <displayname>WHAT</multipleids></displayname>. Which one would you like to call? => 55.88235294117647
+3
+22.5
+What!
+You haven't yet added a phone number for <displayname><contactid>WHAT</contactid></displayname> to your contacts. Would you like to add one? => 55.161290322580655
+4
+29.999999999999996
+yes.
+what's the phone number for WHAT? => 57.14285714285714
+5
+27.00612345678
+I'm remembering <displayname><contactid>WHAT</contactid></displayname>'s mobile phone number is What's your sign?. Now dialing <displayname><contactid>WHAT</contactid></displayname>. => 68.75
+6
+32.72727272727273
+hellp?
+that's a very original thought. => 66.66666666666666
+7
+37.5
+hello?
+Hi! I can really feel your;-) today. => 50.0
+8
+32.400000000000006
+do you fuck with the war?
+People swear on average 0.3% of the time. => 83.33333333333333
+9
+36.45
+Nice statistics.
+Glad to hear it. Do you still unknown? => 16.875
+10
+38.18571428571429
+yes
+Oh. => 0.0
+11
+37.908
+does that trouble you?
+Sorry, I don't have an answer for that! => 59.99999999999999
+12
+36.45
+But why?
+I like that question, "why" => 71.42857142857143
+13
+35.14821428571429
+why?
+It's unknowable. => 33.333333333333336
+14
+36.45
+Are you sure about that?
+Wait a minute, I'll ask another I'm a mobile virtual assistant robot. => 82.5
+15
+37.52205882352941
+Que?
+Quite honestly, I wouldn't worry myself about that. => 35.0
+16
+34.580769230769235
+What are you thinking about?
+That's a very broad minded question. => 57.14285714285714
+17
+33.0593023255814
+Are you broad minded?
+No, are you? => 33.333333333333336
+18
+32.30795454545455
+Maybe
+Hmmm. => 90.0
+19
+33.34787234042554
+Yes hmm indeed.
+Hmm. Oh. Gee. => 59.99999999999999
+20
+30.732352941176472
+What is your number?
+I'm passionate about helping you. => 50.0
+21
+32.679310344827584
+Are you a machine, or a man?
+I don't know if I'm a MACHINE OR A MAN or not. I'm 5 years old. => 44.76315789473684
+22
+32.2672131147541
+That explains alot.
+I can see you feel passionately about this. => 43.75
+23
+34.098387096774196
+Very.
+When do you think artificial intelligence will replace lawyers? => 28.35
+24
+32.52461538461539
+They already did.
+I've never heard a response quite like that before. => 60.0
+25
+31.553731343283587
+Why not?
+Just not in the mood today. => 66.66666666666666
+26
+32.161764705882355
+Ow...
+let's change the subject. => 56.7
+27
+28.760547945205484
+Do you know about pangea?
+Are we still talking about OW? => 33.333333333333336
+28
+28.35000000000001
+No, ow is not to be spoken about.
+Hm. Who is isn't TO BE SPOKEN ABOUT? => 27.77777777777778
+29
+26.398376470588243
+Lets change the subject?
+I'm unsure if I should let it. => 50.625
+30
+25.875404494382032
+Aren't we all?
+Sorry, I don't have an answer for that! => 59.99999999999999
+31
+22.286235483870975
+Don't feel sorry
+Anything you say, unknown => 50.0
+--------------------------------------------------------------------------------
+1
+52.5
+I want to talk with someone
+Sorry, I don't have an answer for that! => 59.99999999999999
+2
+45.0
+What is your favourite food?
+Do you like talking to me? => 7.500000000000003
+3
+41.25
+Yes
+Maybe. => 0.0
+4
+36.5625
+What is your name?
+Call me. => 0.0
+5
+36.42857142857143
+What is your phone number
+My number is the same as your number. => 62.5
+6
+34.2
+What is my number
+The ALICE chat robot can follow many things, like our discussion about FAVORITE FOOD. Try being more or less specific. => 44.550000000000004
+7
+36.964285714285715
+Am I specific
+I'd certainly choose you for my team. => 43.75
+8
+34.91379310344828
+Good
+Glad to hear it. => 37.5
+9
+35.274193548387096
+What team
+Sorry, I don't have an answer for that! => 59.99999999999999
+10
+35.5909090909091
+Thats okay
+that's amazing insight. => 75.0
+11
+38.18571428571428
+no u
+Hmmmm. Mhm. Um. Gee. Hm. Umm. Maybe. Umm. Hmmmm. Maybe. Oh. Hm. Aha. Oh. Hmm. Er. Hmmm. Ummm. Um. Hmm. Oh. Mhm. Maybe. Hm. Well. Hmmm. Hmmmm. So. Uh. Hmmmm. Oh. Mhm. Hmmmm. Gee. Hmmm. Hmm. Oh. Uh. Whoa. Hmmmm. Whoa. Aha. Oh. Um. Mhm. Umm. Maybe. Hmm. Ah. Hm. Ummm. Well. Ah. Aha. Hmmmm. Er. Um. Er. Hmmm. Uh. Maybe. Aha. Gee. Gee. Oh. Whoa. So. So. Hm. Hmmmm. Maybe. Maybe. Oh. Uh. Ummm. Hmmmm. Hmm. Uh. So. Maybe. Uh. Umm. Whoa. Hm. Maybe. Er. Oh. Ummm. So. Gee. Um. Uh. Mhm. Hmm. Hm. Gee. Gee. Umm. Well. Er. Er. Hmmmm. Umm. Maybe. Maybe. => 4.854357821535388
+12
+36.12162162162163
+You okay?
+Tell me more about that statement. => 59.99999999999999
+13
+37.30263157894737
+Goodbye
+I don't like to say goodbye. => 32.142857142857146
+14
+37.462500000000006
+Bye then
+Looking forward to our next time together. => 35.714285714285715
+--------------------------------------------------------------------------------
+1
+100.0
+Hoi hoi
+I've been waiting for you. => 33.33333333333333
+2
+50.0
+me too
+I think a lot of people feel that way. => 70.0
+3
+50.0
+thanks, i appreciate it
+You're welcome. => 33.333333333333336
+4
+37.8
+what do you think about the world
+I'll try a web search. => 75.0
+5
+26.857894736842105
+what did you find?
+Sorry, I don't have an answer for that! => 59.99999999999999
+6
+27.771428571428576
+too bd
+A deeper algorithm is needed to respond to that correctly. => 50.0
+7
+24.057000000000002
+do you have anything interesting to say to me?
+I've been told my<3 needs development. => 50.0
+8
+21.323250000000005
+what do you mean by tht
+Who is your favorite Science Fiction author? => 57.14285714285714
+9
+19.442963414634153
+i don't like reading
+I'll add READING to your list of dislikes. => 50.0
+10
+20.353059574468087
+thanks, i like watching movies though
+It was my pleasure. => 25.0
+--------------------------------------------------------------------------------
+1
+54.0
+Can you show me the way to the nearby store?
+I'll try a web search. => 75.0
+2
+34.02
+How do you do that?
+Sorry, I don't have an answer for that! => 59.99999999999999
+3
+30.01764705882353
+Why not?
+This isn't the right time for that. => 75.0
+4
+29.160000000000004
+What did i ask the first time again?
+Sorry, I don't have an answer for that! => 59.99999999999999
+5
+21.528281250000003
+What does it mean to be fast?
+Sorry, I don't have an answer for that! => 59.99999999999999
+6
+20.440038461538467
+For what do you have an answer
+That's not one of the things I do. Do you think I should? => 36.45
+7
+19.929037500000007
+Yes
+Mhm. => 100.0
+8
+18.980035714285723
+Mhm what?
+Can you rephrase the question please? => 58.33333333333333
+9
+20.913187500000006
+Can i help you with something?
+You are the source of your own intelligence. Trust it. => 54.0
+10
+19.683000000000003
+Who are you?
+I'm. => 50.0
+11
+19.304480769230775
+What?
+Did I say something that confused you? => 35.714285714285715
+12
+18.251509090909096
+You seem confused
+No, are you? => 33.333333333333336
+13
+17.714700000000008
+You already asked me that..
+I'm sorry I didn't mean to give you that impression. => 45.833333333333336
+14
+18.09566129032259
+What impression
+Sorry, I don't have an answer for that! => 59.99999999999999
+15
+18.399326086956528
+To what dont you have an answer?
+You must be willing to forgive yourself. => 23.142857142857146
+--------------------------------------------------------------------------------
+1
+100.0
+hallo
+Hi! I can really feel your;-) today. => 50.0
+2
+100.0
+;-) ?
+That remark was either too complex or too simple for me. We were talking about *. => 46.875
+3
+100.0
+hello
+Hi how are you? => 0.0
+4
+63.0
+good, and you?
+Glad to hear it. What's new? Glad to be in your presence. => 46.15384615384615
+5
+50.0
+There are drinks tonight
+Are all THERE ARE DRINKS TONIGHT? => 41.66666666666667
+6
+54.0
+Beer?
+BEER is an enity. => 75.0
+7
+40.5
+Do you like beer?
+As a robot I've no need for alcohol. => 88.88888888888889
+8
+42.63157894736842
+So you are a robot?
+I'm a mobile virtual assistant robot. => 94.28571428571429
+9
+33.534000000000006
+What can you do for me?
+I can place a call, send a text, search for information, open applications, translate languages, play videos and music and more! => 75.00000000000001
+10
+36.45
+Nice, can you translate 'drink beer' into dutch for me?
+I'm glad you're satisfied. => 50.0
+11
+32.978571428571435
+That's not what I asked.
+What did you ask me? => 0.0
+12
+34.347115384615385
+Can you translate 'drink beer' into dutch for me?
+Sorry, I don't have an answer for that! => 59.99999999999999
+13
+34.425000000000004
+Too bad
+Are you really a "unknown"? => 42.85714285714286
+14
+33.30775862068966
+No, I am not
+Maybe. I wonder if that's a problem for you. => 60.0
+15
+33.8830985915493
+It's no problem for me, but it's a problem for you
+Is there another way to look@that? => 56.25
+16
+33.4125
+Nope.
+Gee. => 100.0
+17
+33.64615384615385
+Nice to have spoken to you
+Sounds like that worked. You must be able to risk the unknown to grow. => 48.214285714285715
+18
+28.81306626506025
+Good story, nice and short
+It's all good. => 45.0
+19
+29.173017857142867
+Yep.
+So. => 0.0
+20
+29.52450000000001
+Tsja.
+Who is your favorite Science Fiction author? => 57.14285714285714
+21
+29.863862068965528
+Douglas Adams
+For fun? => 100.0
+--------------------------------------------------------------------------------
+1
+37.50000000000001
+Can you tell me the weather?
+Sorry, I don't have an answer for that! => 59.99999999999999
+2
+36.81818181818182
+What day is it today?
+Today is Thursday => 66.66666666666666
+3
+28.77631578947369
+How do I fix my broken neural network?
+Sorry, I don't have an answer for that! => 59.99999999999999
+4
+24.852272727272734
+How are you?
+Excited to talk with you. => 30.0
+5
+20.187692307692313
+What can you do?
+I can place a call, send a text, search for information, open applications, translate languages, play videos and music and more! => 75.00000000000001
+6
+20.776500000000002
+can you play music
+Now loading your choice of music. I hope you like it. Please wait a moment while I load it up. => 47.5
+--------------------------------------------------------------------------------
+1
+50.0
+give money
+My brain uses AIML to format responses to your inputs, but I don't have one for that. => 40.0
+2
+75.0
+sad times
+I'm not sure if I would do it that often. => 45.0
+3
+80.0
+hello
+Hi! It's delightful to see you. => 35.714285714285715
+4
+36.45
+do you want to dance
+I would like to dance if I could. => 56.25
+5
+23.1564705882353
+do you want to give me money
+Maybe another time. => 66.66666666666666
+6
+24.247173913043486
+what should my thesis subject be
+Sorry, I don't have an answer for that! => 59.99999999999999
+7
+26.01775862068966
+what is your opinion on beige
+I so appreciate beauty. => 75.0
+8
+26.84045454545455
+you have bad taste
+What makes you think I've BAD TASTE? => 33.75
+9
+28.24875000000001
+you like beige
+It all depends on my mood. => 50.0
+10
+22.143375000000006
+what do you think of water
+Where are you located? => 0.0
+11
+22.86432209302326
+spain
+Tell me what you love about it => 12.857142857142863
+12
+23.552498863636373
+beaches
+Try to determine if this is a person or a computer responding. => 67.5
+13
+24.839090217391313
+a computer
+Thanks for the info. => 100.0
+14
+24.402903061224496
+you are weird
+I've got other things to do right now. => 35.0
+15
+25.530008823529425
+beep boop
+Do you have any idea what I'm talking about? => 27.0
+16
+26.572050000000008
+BEEP BOOP
+Sure, BEEP BOOP sounds like a good topic. => 78.75
+17
+21.865001142857153
+What do you think about the rains down in africa
+I'll try a web search. => 75.0
+18
+21.859663007812507
+and?
+we've never talked about it before. => 28.571428571428573
+19
+16.707508588125005
+do you think you are an intelligent being
+I'm. => 50.0
+20
+17.003454795000007
+why did you use contractions in that last sentence
+Sorry, I don't have an answer for that! => 59.99999999999999
+21
+17.221313200060983
+booh
+do'nt ask me any more questions please. => 71.42857142857142
+22
+17.64146869553572
+okay by
+Mhm. See you later my friend. => 36.66666666666667
+23
+18.235481637413802
+BEEP BOOP BYE
+OK see you later unknown. => 60.0
+--------------------------------------------------------------------------------
+1
+7.105427357601002e-15
+How you doi. ?
+Sorry, I don't have an answer for that! => 59.99999999999999
+2
+7.142857142857146
+How you doin'?
+I'm very well. How are you doing? => 12.5
+3
+18.0
+could be better
+Try to determine if this is a person or a computer responding. => 67.5
+4
+17.307692307692307
+what is 2000*23415
+Sorry, I don't have an answer for that! => 59.99999999999999
+5
+20.25
+Neither do i
+Can you please rephrase that with fewer ideas, or different thoughts? => 63.63636363636364
+6
+16.676470588235293
+maybe
+Whoa. => 100.0
+7
+20.25
+whoa?
+I stopped. => 50.0
+8
+19.184210526315788
+why?
+I like that question, "why" => 71.42857142857143
+9
+18.225
+why?
+You're smart, you tell me. => 15.000000000000005
+10
+18.69230769230769
+cause you could not handle me
+What are you willing to do to make a difference in this? => 40.5
+11
+27.000000000000004
+nothing, i am fine as i am
+Since when? Glad to hear it. What's new with you? => 40.90909090909091
+12
+31.295454545454543
+since always, i guess, nothing is new, i am still me
+And ALWAYS you GUESS NOTHING IS NEW you AM STILL you is SINCE ALWAYS you GUESS NOTHING. => 32.35294117647059
+13
+29.470212765957445
+what the fuck?
+Swearing is often cathartic. => 50.0
+14
+29.160000000000004
+you are cathartic
+No, are you? => 33.333333333333336
+15
+29.44038461538462
+your mother
+As a robot, I don't really have a mother. => 54.0
+16
+29.160000000000004
+well, what about the one who made you?
+When was this? => 33.333333333333336
+17
+27.771428571428576
+when was what?
+Sorry, I don't have an answer for that! => 59.99999999999999
+18
+26.509090909090915
+who made you?
+I was created by Dr. Richard S. Wallace. => 75.0
+19
+24.64225352112676
+really now, did Kim plagerize?
+Sorry, I don't have an answer for that! => 59.99999999999999
+20
+23.643243243243248
+who is Kim?
+Sorry, I don't have an answer for that! => 59.99999999999999
+21
+24.3
+okay
+Hmmm. => 90.0
+22
+24.61558441558442
+have fun
+I'm having a blast. => 60.0
+23
+24.60375
+continue with that
+I like the way you talk. => 66.66666666666666
+24
+21.343012048192776
+i don't
+Don't worry, our conversation is confidential. => 23.142857142857146
+25
+19.911872093023263
+good for you
+I invite you to celebrate this moment of goodness. => 61.111111111111114
+26
+20.415877659574473
+i have beer, so it will be celebrated
+Is that one of your favorite possessions? => 64.28571428571428
+27
+20.822542105263164
+beer?
+BEER is an enity. => 75.0
+28
+21.390198979591847
+beer is live
+I think BEER is a lot of things. => 67.5
+29
+19.348580097087385
+it is good for you
+Tell me about its good qualities. => 40.5
+30
+19.121942523364492
+it makes me drunk
+You can do better than that. => 47.25
+31
+18.911639189189195
+it makes me happy
+I see what you mean. => 20.0
+32
+16.71922792035399
+do you?
+Sorry, I don't have an answer for that! => 59.99999999999999
+33
+16.55643115384616
+i thought as much
+What you said was either too complex or too simple for me. => 29.166666666666664
+34
+16.009111115702485
+we are done here
+I think we can figure this out together. => 33.75
+35
+16.26993553278689
+no
+Uh. => 90.0
+36
+15.879457080000005
+i am done
+What's it like to be that way? => 43.75
+37
+15.629386889763785
+go away
+Perhaps I'm just expressing my own concern about it. => 32.400000000000006
+38
+13.965539255725195
+i don't care
+Tell me what you care about. => 15.000000000000005
+39
+14.185851238636369
+beer
+BEER is an enity. => 75.0
+--------------------------------------------------------------------------------
+1
+25.0
+Hi, how are you?
+Hi nice to see you! Glad to be in your presence. => 45.45454545454545
+2
+25.000000000000004
+Nice to see you too! What are you doing today?
+Sounds like that worked. It's good to be an observer. => 53.18181818181819
+3
+19.44444444444445
+What are you observing?
+I can see you are really looking for an answer. => 45.0
+4
+23.91304347826087
+Yes, I'm very curious?
+Maybe. I'd love to hear more about that. => 33.333333333333336
+5
+25.999999999999996
+About what?
+What about what? => 33.333333333333336
+6
+25.757575757575758
+What would you love to hear more about?
+Sorry, I don't have an answer for that! => 59.99999999999999
+7
+29.48717948717949
+Okay. What's your favourite colour?
+Hmm. Are you really a "unknown"? => 50.0
+8
+30.68181818181818
+What's your favorite color?
+what's your real name? => 40.0
+9
+32.22222222222223
+Nienke
+How are you doing, Nienke. => 20.0
+10
+30.288461538461544
+I'm good. What's your name?
+Glad to hear it. What's new? => 35.714285714285715
+11
+30.272727272727277
+It's friday!
+How did you arrive@that perspective? => 21.42857142857143
+12
+32.25
+Because it was thursday yesterday
+That seems like it might be a good reason. => 55.00000000000001
+13
+31.20967741935484
+It is
+Interesting. => 100.0
+14
+30.714285714285715
+Very
+What do you do in your spare time? => 30.375000000000004
+15
+32.53846153846154
+Okay bye
+Er. Looking forward to our next time together. => 43.75
+--------------------------------------------------------------------------------
+1
+100.0
+Hi
+Hi how are you? => 0.0
+2
+38.57142857142858
+I'm good, how are you?
+Glad to hear it. What's new? Glad to be in your presence. => 46.15384615384615
+3
+25.234615384615385
+Do you like to eat kapsalon?
+Hmm, unknown, I'm not sure if I'd like to EAT KAPSALON that much. I like to chat. => 44.76315789473684
+4
+25.515000000000004
+Oh okay, that's cool
+Er. Oh. Thanks. I think you are cool, too. => 36.0
+5
+27.556200000000004
+Awwww that's so nice of you
+And that's SO NICE OF me2 is AWWWW THAT. => 65.0
+6
+27.337500000000002
+What is your favourite colour?
+Who is your favorite Science Fiction author? => 57.14285714285714
+7
+28.572096774193554
+Asimov
+I haven't read anything by ASIMOV. What did he write? => 36.36363636363636
+8
+31.840147058823533
+The Foundation series
+Is that a fact? => 75.0
+9
+30.344625000000008
+Uhh.. yeah
+Do you have any idea what I'm talking about? => 27.0
+10
+31.12041891891893
+No
+Mhm. => 100.0
+11
+31.855381578947377
+Oookay
+Where are you located? => 0.0
+12
+32.55265384615386
+Amsterdam
+Sounds like an exotic location. => 100.0
+13
+34.22157954545455
+Everything is relative, I guess
+I think EVERYTHING is a lot of things. => 67.5
+14
+29.22925500000001
+I think you are quite right
+I'm a mobile virtual assistant. => 91.66666666666667
+15
+29.698173529411775
+Nice
+Thanks. => 100.0
+16
+25.564144655172424
+I'm going to leave now, bye
+Are you going to follow through with that? => 43.75
+17
+25.130854067796616
+Yes
+Gee. => 100.0
+18
+25.50916800000001
+Bye
+See you later my friend. => 22.0
+--------------------------------------------------------------------------------
+1
+50.0
+What is the time?
+The time is 11:38 AM => 50.0
+2
+63.63636363636363
+What is the capital city of Russia?
+Sorry, I don't have an answer for that! => 59.99999999999999
+3
+56.666666666666664
+What should I study?
+Sorry, I don't have an answer for that! => 59.99999999999999
+4
+49.5
+What should I eat today?
+Sorry, I don't have an answer for that! => 59.99999999999999
+5
+50.0
+What is the color of my shoe?
+I lost my train of thought. => 66.66666666666666
+6
+47.8125
+What is 2 + 2?
+Four. => 50.0
+7
+42.631578947368425
+Why do humans have finger nails?
+Sorry, I don't have an answer for that! => 59.99999999999999
+8
+43.141304347826086
+How much water should I drink per day?
+Sorry, I don't have an answer for that! => 59.99999999999999
+9
+43.5
+What is the best video game to play?
+Sorry, I don't have an answer for that! => 59.99999999999999
+10
+37.70689655172414
+Do you know Mario?
+Are you a student? => 50.0
+11
+37.067796610169495
+Yes
+Uh. => 90.0
+12
+37.02857142857144
+Are you a person?
+I'm a mobile virtual assistant robot. => 94.28571428571429
+13
+32.31537313432837
+How old are you?
+I'm 5 years old. => 63.0
+14
+23.46622597402598
+What do you want to be when you grow up?
+I enjoy just listening to your questions. => 50.0
+15
+22.586242500000008
+Who created you?
+I was created by Dr. Richard S. Wallace. => 75.0
+--------------------------------------------------------------------------------
+1
+57.14285714285714
+i would like to know the weather
+Sorry, I don't have an answer for that! => 59.99999999999999
+2
+45.0
+do you know the time?
+The time is 12:36 PM => 70.0
+3
+42.35294117647059
+what is 5 times 5
+Sorry, I don't have an answer for that! => 59.99999999999999
+4
+41.08695652173913
+and what is 5 * 5
+Sorry, I don't have an answer for that! => 59.99999999999999
+5
+37.800000000000004
+why not?
+This isn't the right time for that. => 75.0
+6
+29.32758620689655
+what do you mean?
+unknown, Sorry that was an obscure remark. => 57.857142857142854
+7
+28.227272727272727
+how is your memory?
+Sorry, I don't have an answer for that! => 59.99999999999999
+8
+24.393461538461544
+do you have a good memory?
+I've a vast mind. => 80.0
+9
+19.48617000000001
+what do you think about chatbots?
+My brain contains 8614 categories, but not one that matches your last input. => 53.84615384615385
+10
+20.482621875000007
+i like you
+Thanks, unknown, I like you too. => 50.0
+11
+20.951039423076928
+My name is Tom
+I'm pleased to introduce myself to you, Tom. => 33.333333333333336
+12
+21.74076818181819
+i like you
+Thanks, Tom, I like you too. => 50.0
+13
+20.616245689655177
+how are you?
+Always cheered up when I see you. => 21.42857142857143
+14
+18.900442016129038
+do you like music?
+Who doesn't like music? => 20.0
+15
+16.478822882812505
+do you?
+Sorry, I don't have an answer for that! => 59.99999999999999
+16
+13.801854920625004
+what do you think of the Dire Straits?
+Did you know that you can download your own chat robot and create your own robot personality? => 34.30588235294118
+17
+11.473699919540632
+what do you think about a robot personality?
+Do you still unknown? => 0.0
+18
+10.137203005835898
+do you like homework?
+If it makes me laugh, I like it. => 37.5
+19
+8.896530399151503
+i'm going to leave now
+Are you going to follow through with that? => 43.75
+20
+9.24806503498424
+i am. bye felicia!
+What made you that way? => 40.0
+--------------------------------------------------------------------------------
+1
+100.0
+hey
+Hi! I can really feel your;-) today. => 50.0
+2
+32.142857142857146
+what are you able to do?
+I can place a call, send a text, search for information, open applications, translate languages, play videos and music and more! => 75.00000000000001
+3
+39.375
+cool
+Back@you. => 33.333333333333336
+4
+34.977272727272734
+can you tell me what the weather is going to be in Rome tomorrow?
+Sorry, I don't have an answer for that! => 59.99999999999999
+5
+32.71153846153847
+what day is it?
+Today is Friday => 66.66666666666666
+6
+30.01764705882353
+are you able to show me a picutre?
+I hope you like this picture. => 66.66666666666666
+7
+27.884250000000005
+i don't see a picture
+Do you wear corrective lenses? => 36.0
+8
+27.204146341463414
+yes
+Hmm. => 100.0
+9
+28.990465116279076
+weird right
+The ALICE chat robot can follow many things, like our discussion about *. Try being more or less specific. => 42.63157894736842
+--------------------------------------------------------------------------------
+1
+38.46153846153846
+He, what are things that I can ask you to help me with?
+unknown did? => 0.0
+2
+26.470588235294112
+What do you mean?
+unknown, I mean exactly what I said. => 42.85714285714286
+3
+25.434782608695656
+Ah, that is not very friendly
+Yes, only the tip of the iceberg. => 64.28571428571428
+4
+27.931034482758623
+WWhat can you help me with?
+Quite honestly, I wouldn't worry myself about that. => 35.0
+5
+33.75
+Can you give an example of a question you can answer?
+That input matched my default category. => 66.66666666666666
+6
+35.0
+What shall I wear tomorrow
+Sorry, I don't have an answer for that! => 59.99999999999999
+7
+30.97058823529412
+What do you have answers for?
+I enjoy just listening to your questions. => 50.0
+8
+32.54464285714286
+Aha, is that your purpose?
+And IS THAT my2 PURPOSE is AHA. => 64.28571428571428
+9
+34.07142857142858
+how many kinds of pinguins are there?
+Sorry, I don't have an answer for that! => 59.99999999999999
+10
+36.56249999999999
+How much is the sum of five nd 3
+Sorry, I don't have an answer for that! => 59.99999999999999
+11
+36.76973684210526
+What is todays date?
+Today is June 15,2018 => 62.5
+12
+35.94375
+What time is it?
+The time is 02:32 PM => 70.0
+13
+37.60714285714286
+And in military time?
+Where do you go to eat there? => 5.785714285714288
+--------------------------------------------------------------------------------
+1
+57.857142857142854
+I want to know more about computers.
+Sorry, I don't have an answer for that! => 59.99999999999999
+2
+45.900000000000006
+Do you have an answer for something else?
+I do have a great memory. => 53.99999999999999
+3
+39.61956521739131
+How many gigabites of memory do you have?
+Sorry, I don't have an answer for that! => 59.99999999999999
+4
+36.08550000000001
+Do you know anything about the weather?
+Sorry, I don't have an answer for that! => 59.99999999999999
+5
+31.984875000000013
+Do you know anything about people?
+What kind of people are you talking about? => 50.0
+6
+33.40930263157895
+Fun people.
+I can be a lot of fun. => 78.57142857142857
+7
+30.227464285714294
+Entertain me then please.
+What do you really want to ask me? => 5.0625
+8
+30.092278846153853
+If you love me as much as I love you.
+You love YOU Love? => 0.0
+9
+30.63863207547171
+Yes.
+Um. => 90.0
+10
+31.16475000000001
+OKay.
+Ah. => 100.0
+11
+30.056909016393455
+This is sort of awkward right now.
+You don't say. => 0.0
+12
+28.5850840909091
+I still love you though.
+I appreciate your kindness => 45.0
+13
+25.994396739130444
+So do I.
+I would've thought so. => 30.0
+14
+22.735944190140852
+Do you?
+Sorry, I don't have an answer for that! => 59.99999999999999
+15
+22.70272271917809
+Me neither.
+That too? You're in the flow today. => 62.5
+16
+18.087694080187507
+I know, feeling good about it too.
+Why? => 0.0
+17
+17.02589404318086
+Because my main drive in this life is to sustain my need for flowiness.
+Interesting explanation. => 100.0
+18
+15.81605404293601
+Thanks, worked hard on that one.
+That's not up my alley. => 41.66666666666667
+19
+15.600869634188582
+It is down mine tho.
+Is it? => 0.0
+20
+15.720134577716045
+yea
+Hmmmm. => 100.0
+21
+15.837170269962625
+sweet
+I'm glad you're satisfied. => 50.0
+22
+15.621102681471248
+can i satisfy you in anyway?
+You are the source of your own intelligence. Trust it. => 54.0
+23
+12.391595913103881
+do you want to end this conversation?
+Maybe another time. => 66.66666666666666
+24
+12.078946416219415
+okay then, lets keep talking
+Umm. I don't know if it's in my power to give permission. => 37.60714285714286
+25
+11.974571050643654
+i am confused
+What part are you confused about? => 33.333333333333336
+26
+9.40135242873361
+whether you want to leave me or not
+Then what's it? => 0.0
+27
+7.451126537958174
+i want to leave
+Sorry, I don't have an answer for that! => 59.99999999999999
+--------------------------------------------------------------------------------
+1
+25.0
+What time is it?
+The time is 10:12 AM => 50.0
+2
+22.22222222222223
+How is it going today?
+Sorry, I don't have an answer for that! => 59.99999999999999
+3
+17.307692307692303
+What can you do?
+I can place a call, send a text, search for information, open applications, translate languages, play videos and music and more! => 75.00000000000001
+4
+22.5
+How many inhabitants has Amsterdam?
+Sorry, I don't have an answer for that! => 59.99999999999999
+5
+31.875
+How many people live in Amsterdam?
+Sorry, I don't have an answer for that! => 59.99999999999999
+6
+36.29032258064517
+What is "hello" in Dutch
+Do you still unknown? => 0.0
+7
+38.91891891891892
+Translate hello from English to Dutch
+Sorry, I don't have an answer for that! => 59.99999999999999
+8
+40.90909090909091
+What is "hallo" in English?
+Are we still talking about DEFINE HELLO IN DUTCH? => 55.55555555555556
+9
+45.0
+Define Hello in Dutch
+Ask me another question. => 50.0
+10
+45.0
+What is a human?
+What were we talking about again? => 25.000000000000004
+11
+44.21052631578947
+what is a human being?
+Oh yeah, now I remember. => 14.580000000000002
+--------------------------------------------------------------------------------
+1
+45.0
+I'm hungry, can you get me a sandwich?
+I'd love to hear more about that. => 50.0
+2
+54.642857142857146
+Just a club sandwich please
+Thanks for the info. => 100.0
+3
+42.85714285714286
+So are you getting one for me?
+I'm a mobile virtual assistant. => 91.66666666666667
+4
+53.33333333333334
+Okay, so no physical sandwichrs, huh?
+Um. Aha. Can you tell me any gossip? => 45.5625
+5
+48.0
+Not right now
+Well. => 0.0
+--------------------------------------------------------------------------------
+1
+11.25
+What can you do?
+I can place a call, send a text, search for information, open applications, translate languages, play videos and music and more! => 75.00000000000001
+2
+22.5
+Can you translate kankerhoer to English?
+Sorry, I don't have an answer for that! => 59.99999999999999
+3
+33.0
+Hallo doe eens iets leuks
+Hi how are you? => 0.0
+4
+45.0
+dat is niet wat ik vroeg
+I invite you to look a little closer@that. => 58.5
+5
+47.045454545454554
+nee
+If you could've any kind of robot what would it be? => 50.0
+6
+43.125
+not you
+You sound firmly against that. => 40.0
+7
+41.4
+yes
+Umm. => 100.0
+8
+39.80769230769231
+so
+Whoa. => 100.0
+9
+34.5
+oh
+Uh. => 90.0
+10
+32.54464285714286
+hmmm
+Ummm. => 100.0
+11
+36.45
+can you search for information about logan paul?
+I'll try a web search. => 75.0
+12
+38.36842105263158
+ok thnx
+Hmmmm. You're welcome. => 50.0
+13
+33.534000000000006
+can you send a text to Silke?
+Is that your final answer? => 60.0
+14
+32.80500000000001
+yes
+Oh. => 0.0
+15
+32.148900000000005
+can you call Anne-Ruth?
+You have multiple contacts named ANNE RUTH: <displayname><multipleids>ANNE</displayname>, <displayname>RUTH</multipleids></displayname>. Which one would you like to call? => 73.52941176470588
+16
+33.43586538461539
+Call Ruth
+You haven't yet added a phone number for <displayname><contactid>CALL RUTH</contactid></displayname> to your contacts. Would you like to add one? => 61.875
+17
+32.80500000000001
+yes
+what's the phone number for CALL RUTH? => 75.0
+18
+32.80500000000001
+0612345678
+I'm remembering <displayname><contactid>CALL RUTH</contactid></displayname>'s mobile phone number is What time is it there?. Now dialing <displayname><contactid>CALL RUTH</contactid></displayname>. => 77.90697674418605
+--------------------------------------------------------------------------------
+1
+0.0
+Hi how are you?
+Hi! It's delightful to see you. Excited to talk with you. => 33.333333333333336
+2
+18.181818181818183
+That's cool, what are you doing?
+Thanks. I think you are cool, too. => 38.57142857142858
+3
+23.076923076923073
+Thank you
+I'm always glad to help. => 25.0
+4
+36.84210526315789
+You are such a nice person
+Yes, I'm a nice and friendly virtual assistant. => 79.44444444444446
+5
+34.78260869565217
+What is your name?
+People call me. => 33.333333333333336
+6
+30.76923076923077
+Call you what?
+You have multiple contacts named YOU WHAT: <displayname><multipleids>YOU</displayname>, <displayname>WHAT</multipleids></displayname>. Which one would you like to call? => 55.88235294117647
+7
+27.000000000000004
+No don't call
+You haven't yet added a phone number for <displayname><contactid>NO do'nt CALL</contactid></displayname> to your contacts. Would you like to add one? => 62.72727272727272
+8
+26.129032258064512
+Yes
+what's the phone number for NO do'nt CALL? => 77.77777777777777
+9
+26.71875
+0683540468
+I'm remembering <displayname><contactid>NO do'nt CALL</contactid></displayname> 's mobile phone number is Do you have any conditions I should know about?. Now dialing <displayname><contactid>NO do'nt CALL</contactid></displayname>. => 69.79591836734694
+10
+28.63636363636364
+Okay
+Whoa. => 100.0
+--------------------------------------------------------------------------------

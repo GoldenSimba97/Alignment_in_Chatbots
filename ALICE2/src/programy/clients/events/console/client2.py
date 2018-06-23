@@ -16,6 +16,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR TH
 """
 
 import nltk
+import time
 
 from programy.utils.logging.ylogger import YLogger
 
@@ -45,6 +46,7 @@ class ConsoleBotClient(EventBotClient):
         self.user_history = ""
         self.question_number = 0
         self.user_formality = 0
+        self.question = ""
         self.filename = "user_results_v2.txt"
 
     def get_description(self):
@@ -76,23 +78,44 @@ class ConsoleBotClient(EventBotClient):
         # Calls the renderer which handles RCS context, and then calls back to the client to show response
         self._renderer.render(client_context, response)
 
-    # Added that the results will now be written to a file
+    # Added that the results will now be written to a file. The response also has a small delay based on the
+    # length of the response to make the chatbot more naturalistic. Also makes sure "@" is replaced with "at"
+    # and "<3" with "heart".
     def process_response(self, client_context, response):
-        print(response)
+        if "@" in response:
+            response = response.replace("@", " at ")
+        if "<3" in response:
+            response = response.replace("<3", " heart")
         if self.question_number > 0 and response != "\nBye!":
             self.write_results_to_file2(response)
+            print("...", end="\r")
+            self.delay(response)
+        print(response)
 
+    # Delay for responses to make them more naturalistic.
+    def delay(self, response):
+        s_len = len(response.split())
+        for x in range (0, s_len):
+            time.sleep(0.25)
+
+    # Makes sure the chatbot can handle it if the user presses enter without typing anything.
     def process_question_answer(self, client_context):
-        question = self.get_question(client_context)
+        # question = self.get_question(client_context)
+        self.question = self.get_question(client_context)
+        if self.question == "no u" or self.question == "no u " or self.question == "no u." or self.question == "No u" or self.question == "No u " or self.question == "No u.":
+            self.question = self.question.replace(self.question, "no you")
+        if self.question != "":
 
-        # Expand user history
-        self.user_history = self.user_history + question + ". "
+            # Expand user history
+            self.user_history = self.user_history + self.question + ". "
 
-        # Determine user formality over whole user history
-        self.user_formality = self.determine_formality(self.user_history)
+            # Determine user formality over whole user history
+            self.user_formality = self.determine_formality(self.user_history)
 
-        response = self.process_question(client_context, question)
-        self.render_response(client_context, response)
+            response = self.process_question(client_context, self.question)
+            self.render_response(client_context, response)
+        else:
+            self.question_number -= 1
 
     def wait_and_answer(self):
         running = True
@@ -177,6 +200,7 @@ class ConsoleBotClient(EventBotClient):
             output.write(str(self.question_number) + "\n")
             output.write(str(self.user_formality) + "\n")
             output.write(str(response) + " => " + str(self.determine_formality(str(response))) + "\n")
+
 
 
 if __name__ == '__main__':

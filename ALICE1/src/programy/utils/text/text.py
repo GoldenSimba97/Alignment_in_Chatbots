@@ -44,8 +44,12 @@ class TextUtils:
 
     @staticmethod
     def strip_whitespace(string):
-        first_pass = TextUtils.RE_STRIP_WHITESPACE.sub(' ', string)
-        return ' '.join(first_pass.split())
+        try:
+            first_pass = TextUtils.RE_STRIP_WHITESPACE.sub(' ', string)
+            return ' '.join(first_pass.split())
+        except:
+            pass
+        return ""
 
     @staticmethod
     def strip_all_whitespace(string):

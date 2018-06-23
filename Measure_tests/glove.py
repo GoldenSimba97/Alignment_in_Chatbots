@@ -44,28 +44,3 @@ def find_N_closest_words(vector, N, words):
 
 print(find_N_closest_words(vec('the'), 6, words))
 print("--- %s seconds ---" % (time.time() - mid_time))
-
-
-
-
-# CODE THAT WORKED, BUT WAS VERY SLOW
-
-# Unzip glove.6B.50.1.txt before running this code
-# start_time = time.time()
-# glove = open("glove.6B.50d.1.txt", "r")
-# glove_vectors = glove.readlines()
-#
-# mid_time = time.time()
-# print("--- %s seconds ---" % (time.time() - start_time))
-#
-# # Calculate cosine similarity of a word vector with all other vectors to find the 5 most similar words
-# def calculate_most_similar(word_vector, glove_vectors):
-#     result = Counter()
-#     for key,value in glove_vectors.items():
-#         temp = 0
-#         temp = cosine_similarity(value.reshape(1, -1) ,word_vector.reshape(1, -1))
-#         result[key] = temp
-#     return result.most_common(6)[1:]
-#
-# print(calculate_most_similar(glove_vectors["the"], glove_vectors))
-# print("--- %s seconds ---" % (time.time() - start_time))

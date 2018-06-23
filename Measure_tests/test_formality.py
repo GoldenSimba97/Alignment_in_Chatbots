@@ -88,14 +88,12 @@ start_time = time.time()
 # Open formal and informal word lists
 formal = []
 formal_file = open("FormalityLists/formal_list", "r")
-formal = []
 for line in formal_file:
     line = line.replace("\n", "")
     formal.append(line)
 
 informal = []
 informal_file = open("FormalityLists/informal_list", "r")
-informal = []
 for line in informal_file:
     line = line.replace("\n", "")
     informal.append(line)
@@ -120,10 +118,10 @@ def determine_formality(sentence):
     text = nltk.word_tokenize(sentence)
     s_len = float(len(text))
     tagged = nltk.pos_tag(text)
-    NN_count = JJ_count = IN_count = DT_count = PRP_count = VB_count = RB_count = UH_count = 0 # formality = 0 # Uncomment if testing +/-=10
-    formality = 1 # Comment if testing +/-=10
+    NN_count = JJ_count = IN_count = DT_count = PRP_count = VB_count = RB_count = UH_count = 0
+    formality = 1
 
-    # Get the counts needed to determine frequencys for calculation of F-score.
+    # Get the counts needed to determine frequencies for calculation of F-score.
     # If punctuation is encountered, decrease the length of the sentence by 1.
     for tag in tagged:
         if tag[1] == "NN" or tag[1] == "NNS" or tag[1] == "NNP" or tag[1] == "NNS":
@@ -134,6 +132,8 @@ def determine_formality(sentence):
             IN_count += 1
         elif tag[1] == "DT":
             DT_count += 1
+        elif tag[1] == "PRP" or tag[1] == "PRP$" or tag[1] == "WP" or tag[1] == "WP$":
+            PRP_count += 1
         elif tag[1] == "VB" or tag[1] == "VBD" or tag[1] == "VBG" or tag[1] == "VBN" or tag[1] == "VBP" or tag[1] == "VBZ":
             VB_count += 1
         elif tag[1] == "RB" or tag[1] == "RBR" or tag[1] == "RBS" or tag[1] == "WRB":
@@ -146,34 +146,16 @@ def determine_formality(sentence):
     # Increase formality score if a formal word is encountered and decrease it if an informal word is encountered
     for tag in tagged:
         if tag[0] in formal:
-            formality *= 1.1 #+= 10 # Uncomment if testing +/-=10
+            formality *= 1.1
         elif tag[0] in informal:
-            formality *= 0.9 #-= 10 # Uncomment if testing +/-=10
-
-    # return formality/s_len + f_score(NN_count/s_len*100, JJ_count/s_len*100, IN_count/s_len*100, DT_count/s_len*100,
-    #         PRP_count/s_len*100, VB_count/s_len*100, RB_count/s_len*100, UH_count/s_len*100) # Uncomment if testing +/-=10
+            formality *= 0.9
 
     return formality * f_score(NN_count/s_len*100, JJ_count/s_len*100, IN_count/s_len*100, DT_count/s_len*100,
-            PRP_count/s_len*100, VB_count/s_len*100, RB_count/s_len*100, UH_count/s_len*100) # Comment if testing +/-=10
+            PRP_count/s_len*100, VB_count/s_len*100, RB_count/s_len*100, UH_count/s_len*100)
 
 # Calculation of the F score
 def f_score(NN_freq, JJ_freq, IN_freq, DT_freq, PRP_freq, VB_freq, RB_freq, UH_freq):
     return ((NN_freq + JJ_freq + IN_freq + DT_freq - PRP_freq - VB_freq - RB_freq - UH_freq + 100)/2)
-
-# Make vector for certain word
-def vec(w):
-  return words.loc[w].as_matrix()
-
-# Retrieve N closest (most similar) words
-def find_N_closest_words(v, N, words):
-  Nwords = []
-  for w in range(N):
-     diff = words.as_matrix() - v
-     delta = np.sum(diff * diff, axis=1)
-     i = np.argmin(delta)
-     Nwords.append(words.iloc[i].name)
-     words = words.drop(words.iloc[i].name, axis=0)
-  return Nwords
 
 # Calculate MSE and MAE to compare the true formality scores from mturk_experiment_2 and the calculated scores.
 # Scale the calculated scores to the range from 1-7 used in mturk_experiment_2.
@@ -186,15 +168,11 @@ def test_formality_score():
     test["Formality_score"] = formality_score
     return mean_squared_error(test_formality, formality_score), mean_absolute_error(test_formality, formality_score)
 
-# print(test_formality_score())
+print(test_formality_score())
 print("--- %s seconds ---" % (time.time() - mid_time))
 
+print(determine_formality("Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping. you cunt, why won't you tell me something. why would I do that."))
 # Test sentences with comment formality score from mechanical turk if used from mturk_experiment_2.
-print(determine_formality("100"))
-# print(determine_formality("Ha ha ha."))
-# print(determine_formality("Why?"))
-# print(determine_formality("hello. why will not you cry. you cunt, why won't you tell me something?."))
-# print(determine_formality("hello why will not you cry you cunt, why won't you tell me something? "))
 # print(determine_formality("Just wipe the Mac OS X partition when u install the dapper.")) # 1.2
 # print(determine_formality("Water sports and golf are abundant- and we have some of the greatest cycling in the world, we will be hosting the Ironman competition while you are here.")) # 3.2
 # print(determine_formality("At the Shuttle Landing Facility at NASA's Kennedy Space Center in Florida, hardware that will be used in the launch of the Ares I-X rocket is offloaded from a C-5 aircraft.")) # 5.8

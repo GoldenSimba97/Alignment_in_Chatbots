@@ -15,6 +15,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import sys
+
 from programy.utils.logging.ylogger import YLogger
 
 from programy.parser.pattern.nodes.wildcard import PatternWildCardNode
@@ -57,6 +59,7 @@ class PatternOneOrMoreWildCardNode(PatternWildCardNode):
         return "ONEORMORE [%s]" % (self.wildcard)
 
     def consume(self, client_context, context, words, word_no, match_type, depth):
+        sys.setrecursionlimit(1500)
 
         tabs = self.get_tabs(client_context, depth)
 

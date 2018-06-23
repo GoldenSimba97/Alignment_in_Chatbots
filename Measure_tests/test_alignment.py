@@ -22,22 +22,25 @@ class QRPair:
     # Compute alignment score of a question-response pair. The baseline of the user history is determined to ensure
     # that preferences for certain markers do not influence the result. If the question is empty, if none of the
     # features is found in text or if the feature count divided by the length is zero, there is no alignment.
-    # The actual alignment between question and response can be calculted using four different alternatives.
-	def compute_alignment(self, features, questions_list, smoothing, weight_vector, alternative="matching"):
+    # The actual alignment between question and response can be calculated using four different alternatives.
+	def compute_alignment(self, features, history, questions_list, smoothing, weight_vector, alternative="matching"):
         # Determine baseline of user history
 		base_prob = get_baseline(features, questions_list)
 		other_base_prob = other_baseline(features, questions_list)
 		conditional_prob = self.response_prob(features)
 
+        # Used for testing purposes only
+		# conditional_prob = self.response_prob_binary(features)
+
 		value_vector = np.array([other_base_prob, base_prob])
 		scalarized = np.dot(weight_vector, value_vector)
 
-        # Get needed information from question and response
-		question_text = getWords(self.question)
+        # Get needed information from question, response and user history
 		response_text = getWords(self.response)
 		self.response_length = len(response_text)
 		question_text = getWords(self.question)
 		self.question_length = len(question_text)
+		history_text = getWords(history)
 
 		# If question is empty there is no alignment
 		if len(question_text) == 0:
@@ -45,13 +48,13 @@ class QRPair:
 			return self.alignment
 
         # If none of the features is found in the text there is no alignment
-		q_count = feature_count(question_text, features)
-		if q_count == 0 and features[0] != "number_posts":
+		r_count = feature_count(history_text, features)
+		if r_count == 0 and features[0] != "number_posts":
 			self.alignment = 0
 			return self.alignment
 
         # If the feature count divided by the length is zero there is no alignment
-		q_m = (q_count + smoothing) / (len(question_text) + smoothing)
+		q_m = (r_count + smoothing) / (len(question_text) + smoothing)
 		if q_m == 0:
 			self.alignment = 0
 			return self.alignment
@@ -76,13 +79,21 @@ class QRPair:
 		else:
 			return min(q_m, r_m)
 
-    # See if the features appear in the utterance at all (binary)
+    # Calculate the frequency of features that occur in the response text
 	def response_prob(self, features):
+		total_markers = 0.0
 		response_text = getWords(self.response)
-		# question_text = getWords(self.question)
+		for feature in features:
+			if feature in response_text:
+				total_markers += 1
+		return total_markers/len(response_text)
+
+    # See if the features appear in the utterance at all (binary)
+    # Used for testing purposes only.
+	def response_prob_binary(self, features):
+		response_text = getWords(self.response)
 		total_markers = False
 		for feature in features:
-			# if feature in question_text and feature in response_text:
 			if feature in response_text:
 				total_markers = True
 		return int(total_markers)
@@ -115,7 +126,6 @@ def get_baseline(features, questions_list):
 			if feature in text:
 				total_markers += 1
 				break
-
 		total_posts = 2
 	return total_markers/total_posts
 
@@ -169,44 +179,33 @@ if __name__=="__main__":
 		else:
 			features = [mark]
 
-		# response_dict = {72.22222222222221: 'Swearing is like using the horn on your car.', 50.0: 'Swearing is often cathartic.'}
-		# question = "you cunt, why won't you tell me something"
-		# questions_list = ["Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.", "you cunt, why won't you tell me something"]
-
-		# response_dict = {50.0: 'I am deeply appreciative of who you are.', 68.75: 'I can see your great capacities and gifts.'}
-		# question = "do you love me"
-		# questions_list = ["Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.", "you cunt, why won't you tell me something", "do you love me"]
-
-		response_dict = {77.77777777777779: 'I do have a fabulous computer sense of humor.', 78.57142857142858: "I'm not aware that I've a SENSE OF HUMOUR at this time."}
-		question = "do you have a sense of humour"
-		questions_list = ["Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.", "you cunt, why won't you tell me something", "do you love me", "do you have a sense of humour"]
+		response_list = ['See you later my friend.', 'Looking forward to seeing you again soon.', 'Have a great journey until next time.', 'Looking forward to our next time together.', 'Goodbye', "I don't like to say goodbye.", "It's been a pleasure to be in your company."]
+		question = "bye"
+		questions_list = ["Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.", "you cunt, why won't you tell me something", "do you love me", "do you have a sense of humour", "bye"]
+		history = "Hi! My name is Kim and I am 21 years old. I work as a receptionist at a physical therapy firm. I hate doing dishes, because they are so very dirty. I love playing volleyball, reading, watching tv series and shopping.. you cunt, why won't you tell me something. do you love me. do you have a sense of humour. bye"
 
 		pair_dictionary = {}
-		for question in questions_list:
-			for key, response in response_dict.items():
+		for response in response_list:
+			qr_list = []
+			for question in questions_list:
 				qrpair = QRPair()
 				qrpair.add_question(question)
 				qrpair.add_response(response)
-				pair_dictionary[key] = qrpair
+				qr_list.append(qrpair)
+			pair_dictionary[response] = qr_list
 
 		alignment_dict = {}
 		# Loop through all qrpairs again to compute alignment
-		for k, qrpair in pair_dictionary.items():
-			# some qrpairs do not have the author dict and response dict
-			try:
-				alignment_dict[k] = qrpair.compute_alignment(features, questions_list, smoothing, weight_vector, alternative="final")
-			except:
-				pass
+		for k, qr_list in pair_dictionary.items():
+			alignment_list = []
+			for qrpair in qr_list:
+				alignment_list.append(qrpair.compute_alignment(features, history, questions_list, smoothing, weight_vector, alternative="final"))
+			alignment_dict[k] = sum(alignment_list)
 
-		print(alignment_dict)
 		for key, score in alignment_dict.items():
 			alignment_scores.setdefault(key, []).append(score)
 
-	print(alignment_scores)
 	total_alignment = {key: sum(alignment_scores[key]) for key in alignment_scores}
 	print(total_alignment)
-	score = list(total_alignment.values())[0]
-	if all(value == score for value in total_alignment.values()) == True:
-		print("Return response with closest formality score to user history")
-	else:
-		print(response_dict[max(total_alignment.items(), key=operator.itemgetter(1))[0]])
+	sorted_alignment = sorted(total_alignment.items(), key=operator.itemgetter(1), reverse=True)
+	print(sorted_alignment[0][0])
