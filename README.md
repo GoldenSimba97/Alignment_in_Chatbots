@@ -12,4 +12,4 @@ Replace # by the desired version number:
 
 All tests and corresponding results that have been done to be able to find the best measures to accomplish this research can be found in the folder Measure_tests. The results of the 60 participants who have tested the 3 versions of the chatbot and rated them on user satisfaction can be found in the folder User_tests.
 
-Disclaimer: The chatbot A.L.I.C.E. is created by Dr. Richard S. Wallace. All code for A.L.I.C.E. that has been used in this thesis has originally been written by Keith Sterling. However, the client#.py files (in the folder ../ALICE#/src/programy/clients/events/console) have been edited to a great extend to fit the purpose of my thesis.  
+Disclaimer: The chatbot A.L.I.C.E. is created by Dr. Richard S. Wallace. All code for A.L.I.C.E. that has been used in this thesis has originally been written by Keith Sterling. However, the client#.py files (in the folder ../ALICE#/src/programy/clients/events/console) have been edited to a great extent to fit the purpose of my thesis.  
