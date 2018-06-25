@@ -7,7 +7,7 @@ After having downloaded the code, run the chatbots by typing the command ./alice
 
 Replace # by the desired version number:
 1. Linguistic alignment
-2. Neutral
+2. Current
 3. Formality alignment
 
 All tests and corresponding results that have been done to be able to find the best measures to accomplish this research can be found in the folder Measure_tests. The results of the 60 participants who have tested the 3 versions of the chatbot and rated them on user satisfaction can be found in the folder User_tests.
